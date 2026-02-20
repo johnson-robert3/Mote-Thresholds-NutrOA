@@ -39,7 +39,7 @@ rm_zbsc <- function(.dat) {
 # Function to process datasheet and calculate sulfide concentration in microcentrifuge vial
 calc_vial_S <- function(.processed, .raw, .std_curve) {
    
-   data_flags <- c(
+   data_flags = c(
       'L',  # sample absorbance too low, need to rerun w/ lower pre-color dilution 
       'H',  # sample absorbance too high, need to rerun w/ higher pre-color dilution
       # 'F',  # flocculent material in vial, sample not run
