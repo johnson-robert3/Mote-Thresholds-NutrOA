@@ -20,12 +20,12 @@ library(tidyverse)
 
 
 # raw data from spec run
-std_curve_dec25 = read_csv("Sulfide spectrophotometer data/Sulfide_Low_standard_curve_Dec_2025.csv") %>%
+std_curve_dec25 <- read_csv("Sulfide spectrophotometer data/Sulfide_Low_standard_curve_Dec_2025.csv") %>%
    janitor::remove_empty(which = 'rows')
 
 
 # Clean up the data
-std_dec25 = std_curve_dec25 %>%
+std_dec25 <- std_curve_dec25 %>%
    # remove 'zero'
    filter(!(vial == "Zero")) %>%
    # remove checks
@@ -33,7 +33,7 @@ std_dec25 = std_curve_dec25 %>%
 
 
 # Calculate corrected absorbance for standards
-std_dec25 = std_dec25 %>%
+std_dec25 <- std_dec25 %>%
    filter(!(vial == "Blank")) %>%
    # correct for blank absorbance
    mutate(abs_blk_corr = abs_667 - (std_dec25 %>% filter(vial == "Blank") %>% pull(abs_667) %>% mean)) %>%
@@ -54,7 +54,7 @@ summary(lm(conc_uM ~ abs_corr, data = std_dec25))  # R2 = 0.9965
 
 # lm(conc_uM ~ abs_df_corr, data = std_curve) %>% coef()
 
-calc_S_conc = function(.abs, .std_curve) {
+calc_S_conc <- function(.abs, .std_curve) {
    
    intercept = coef(lm(conc_uM ~ abs_corr, data = .std_curve))[[1]]
    slope = coef(lm(conc_uM ~ abs_corr, data = .std_curve))[[2]]

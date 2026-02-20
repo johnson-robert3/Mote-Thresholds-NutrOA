@@ -5,7 +5,7 @@
 #~~~
 
 # combine leaf/shoot count data with plant_ID data
-plants = leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat) %>%
+plants <- leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat) %>%
    # 7 plant IDs were duplicated between 8/28 and 8/29
    # keep only the 8/29 data for these plants (Hw data is the same across both dates; Tt plants died on 8/29 for these 7 IDs)
    filter(!(date == "2025-08-28" & plant_id %in% c(leaf_counts %>% filter(date == "2025-08-29") %>% pull(plant_id)))) %>%
@@ -15,23 +15,23 @@ plants = leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat) %>
 
 
 # list of all plant IDs used in experiment
-w0_ids = plants %>% pull(plant_id) %>% unique()
+w0_ids <- plants %>% pull(plant_id) %>% unique()
 
 # plant IDs that were harvested for genetics at wk6
-harvest_ids = plant_dat %>% filter(str_detect(removal_notes, "genetics")) %>% pull(plant_id)
+harvest_ids <- plant_dat %>% filter(str_detect(removal_notes, "genetics")) %>% pull(plant_id)
 
 
 
 #-- HALODULE --#
 
 # Plant IDs with living Hw at wk2
-hw_w2_ids = plants %>% filter(week == "w2" & Hw_blades > 0) %>% pull(plant_id)
+hw_w2_ids <- plants %>% filter(week == "w2" & Hw_blades > 0) %>% pull(plant_id)
 
 # Hw alive at wk 6
-hw_w6_ids = plants %>% filter(week == "w6" & Hw_blades > 0) %>% pull(plant_id)
+hw_w6_ids <- plants %>% filter(week == "w6" & Hw_blades > 0) %>% pull(plant_id)
 
 # Hw alive at wk 9
-hw_w9_ids = plants %>% filter(week == "w9" & Hw_blades > 0) %>% pull(plant_id)
+hw_w9_ids <- plants %>% filter(week == "w9" & Hw_blades > 0) %>% pull(plant_id)
 
 # Hw alive at wk 2 that were not harvested for genetics at wk 6 (to calculate survivorship of these at wk 9)
 # however, can't just exclude all the plant IDs that were harvested in wk 6, b/c three of these plants had the Hw die before wk 6,
@@ -46,7 +46,7 @@ hw_w9_ids = plants %>% filter(week == "w9" & Hw_blades > 0) %>% pull(plant_id)
    plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Hw_blades > 0) %>% View
 
 # so the final set of plant IDs from wk 2 to be used for calculating survivorship at wk 9 is...
-hw_w2_no_genetics = plants %>% filter(week == "w2" & Hw_blades > 0) %>% 
+hw_w2_no_genetics <- plants %>% filter(week == "w2" & Hw_blades > 0) %>% 
    filter(!(plant_id %in% 
                c(plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Hw_blades > 0) %>% pull(plant_id))
             )) %>% 
@@ -65,7 +65,7 @@ length(hw_w9_ids) / length(hw_w2_no_genetics) * 100
 
 
 # make a df denoting whether a plant ID was alive at time points
-hw_surv = plants %>%
+hw_surv <- plants %>%
    mutate(
       alive_w0 = 1,
       alive_w2 = if_else(plant_id %in% hw_w2_ids, 1, 0),
@@ -94,10 +94,10 @@ hw_surv %>%
 
 
 # df of Halodule survivorship
-hw_surv = hw_surv %>% filter(!(plant_id %in% c("L006", "L171")))
+hw_surv <- hw_surv %>% filter(!(plant_id %in% c("L006", "L171")))
 
 # view survivorship by treatment
-hw_mort = hw_surv %>%
+hw_mort <- hw_surv %>%
    filter(week == "w2") %>%
    summarize(across(c(alive_w0:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
    mutate(survive_w2_perc = alive_w2 / alive_w0 * 100,   # percent that survived initial acclimation period
@@ -109,13 +109,13 @@ hw_mort = hw_surv %>%
 #-- THALASSIA --#
 
 # Plant IDs with living Thalassia at wk2
-tt_w2_ids = plants %>% filter(week == "w2" & Tt_blades > 0) %>% pull(plant_id)
+tt_w2_ids <- plants %>% filter(week == "w2" & Tt_blades > 0) %>% pull(plant_id)
 
 # Tt alive at wk 6
-tt_w6_ids = plants %>% filter(week == "w6" & Tt_blades > 0) %>% pull(plant_id)
+tt_w6_ids <- plants %>% filter(week == "w6" & Tt_blades > 0) %>% pull(plant_id)
 
 # Tt alive at wk 9
-tt_w9_ids = plants %>% filter(week == "w9" & Tt_blades > 0) %>% pull(plant_id)
+tt_w9_ids <- plants %>% filter(week == "w9" & Tt_blades > 0) %>% pull(plant_id)
 
 # Tt alive at wk 2 that were not harvested for genetics at wk 6 (to calculate survivorship of these at wk 9)
 # however, can't just exclude all the plant IDs that were harvested in wk 6, b/c five of these plants had the Tt die before wk 6,
@@ -138,7 +138,7 @@ tt_w9_ids = plants %>% filter(week == "w9" & Tt_blades > 0) %>% pull(plant_id)
       # - just omit these two for survivorship counts
 
 # so the final set of plant IDs from wk 2 to be used for calculating survivorship at wk 9 is...
-tt_w2_no_genetics = plants %>% filter(week == "w2" & Tt_blades > 0) %>% 
+tt_w2_no_genetics <- plants %>% filter(week == "w2" & Tt_blades > 0) %>% 
    filter(!(plant_id %in% 
                c(plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Tt_blades > 0) %>% pull(plant_id))
             )) %>% 
@@ -157,7 +157,7 @@ length(tt_w9_ids) / length(tt_w2_no_genetics) * 100
 
 
 # make a df denoting whether a plant ID was alive at time points
-tt_surv = plants %>%
+tt_surv <- plants %>%
    mutate(
       alive_w0 = 1,
       alive_w2 = if_else(plant_id %in% tt_w2_ids, 1, 0),
@@ -168,11 +168,11 @@ tt_surv = plants %>%
 
 # df of Thalassia survivorship 
 # (remove the two plants identified above that were only recorded as alive at wk 6)
-tt_surv = tt_surv %>% filter(!(plant_id %in% c("L163", "H117"))) 
+tt_surv <- tt_surv %>% filter(!(plant_id %in% c("L163", "H117"))) 
 
 
 # view survivorship by treatment
-tt_mort = tt_surv %>%
+tt_mort <- tt_surv %>%
    filter(week == "w2") %>%
    summarize(across(c(alive_w0:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
    mutate(survive_w2_perc = alive_w2 / alive_w0 * 100,   # percent that survived initial acclimation period

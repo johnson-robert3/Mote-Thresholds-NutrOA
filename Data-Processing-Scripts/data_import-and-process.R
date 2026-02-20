@@ -15,7 +15,7 @@ library(lubridate)
 
 
 # Standard Error function for use in other scripts
-se = function(x) { sd(x, na.rm=TRUE) / sqrt(length(na.omit(x))) }
+se <- function(x) { sd(x, na.rm=TRUE) / sqrt(length(na.omit(x))) }
 
 
 #--
@@ -23,10 +23,10 @@ se = function(x) { sd(x, na.rm=TRUE) / sqrt(length(na.omit(x))) }
 #--
 
 # Raw data
-plant_ids_raw = read_csv("MSI25_experiment_plantID_treatment_info.csv")
+plant_ids_raw <- read_csv("MSI25_experiment_plantID_treatment_info.csv")
 
 # Initial cleaning
-plant_dat = plant_ids_raw %>%
+plant_dat <- plant_ids_raw %>%
    janitor::remove_empty(which="rows") %>%
    # drop plant IDs that didn't get used
    filter(notes!="plant ID not used" | is.na(notes))
@@ -37,10 +37,10 @@ plant_dat = plant_ids_raw %>%
 #--
 
 # Raw data
-counts_raw = read_csv("MSI25_experiment_leaf_shoot_counts.csv")
+counts_raw <- read_csv("MSI25_experiment_leaf_shoot_counts.csv")
 
 # Initial cleaning
-leaf_counts = counts_raw %>%
+leaf_counts <- counts_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date)) %>%
@@ -53,23 +53,23 @@ leaf_counts = counts_raw %>%
 #--
 
 # Raw data
-morph_raw = read_csv("MSI25_experiment_leaf_morphometry.csv")
-morph_wk5_raw = read_csv("MSI25_experiment_leaf_morphometry_wk5.csv")  # week 5 data w/ a length correction for all measurements
+morph_raw <- read_csv("MSI25_experiment_leaf_morphometry.csv")
+morph_wk5_raw <- read_csv("MSI25_experiment_leaf_morphometry_wk5.csv")  # week 5 data w/ a length correction for all measurements
 
 # Initial cleaning
-morph = morph_raw %>%
+morph <- morph_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
 
-morph_wk5 = morph_wk5_raw %>%
+morph_wk5 <- morph_wk5_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
 
 
 # Combine week 5 data with rest of dataset after adding the length correction to all BL measurements
-morphometry = morph %>%
+morphometry <- morph %>%
    bind_rows(morph_wk5 %>%
                 # add correction length to all BL measurements
                 mutate(across(starts_with("length_cm"), ~ . + correction_cm)) %>%
@@ -84,10 +84,10 @@ rm(morph, morph_wk5)
 #--
 
 # Raw data
-shoot_biomass_raw = read_csv("MSI25_experiment_aboveground_shoot_biomass.csv")
+shoot_biomass_raw <- read_csv("MSI25_experiment_aboveground_shoot_biomass.csv")
 
 # Initial cleaning
-shoot_biomass = shoot_biomass_raw %>%
+shoot_biomass <- shoot_biomass_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
@@ -98,10 +98,10 @@ shoot_biomass = shoot_biomass_raw %>%
 #--
 
 # Raw data
-rhizome_biomass_raw = read_csv("MSI25_experiment_rhizome_biomass.csv")
+rhizome_biomass_raw <- read_csv("MSI25_experiment_rhizome_biomass.csv")
 
 # Initial cleaning
-rhiz_biomass = rhizome_biomass_raw %>%
+rhiz_biomass <- rhizome_biomass_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
@@ -112,10 +112,10 @@ rhiz_biomass = rhizome_biomass_raw %>%
 #--
 
 # Raw data
-epiphytes_raw = read_csv("MSI25_experiment_epiphyte_biomass.csv")
+epiphytes_raw <- read_csv("MSI25_experiment_epiphyte_biomass.csv")
 
 # Initial cleaning
-epiphytes = epiphytes_raw %>%
+epiphytes <- epiphytes_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
@@ -126,10 +126,10 @@ epiphytes = epiphytes_raw %>%
 #--
 
 # Raw data
-porewater_raw = read_csv("MSI25_experiment_porewater_samples.csv")
+porewater_raw <- read_csv("MSI25_experiment_porewater_samples.csv")
 
 # Initial cleaning
-porewater = porewater_raw %>%
+porewater <- porewater_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
@@ -140,16 +140,16 @@ porewater = porewater_raw %>%
 #--
 
 # Raw data
-sed_dbd_raw = read_csv("MSI25_experiment_sediment_bulk_density.csv")
-sed_trs_raw = read_csv("MSI25_experiment_sediment_TRS_samples.csv")
+sed_dbd_raw <- read_csv("MSI25_experiment_sediment_bulk_density.csv")
+sed_trs_raw <- read_csv("MSI25_experiment_sediment_TRS_samples.csv")
 
 # Initial cleaning
-dbd_dat = sed_dbd_raw %>%
+dbd_dat <- sed_dbd_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
 
-trs_dat = sed_trs_raw %>%
+trs_dat <- sed_trs_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
@@ -160,10 +160,10 @@ trs_dat = sed_trs_raw %>%
 #--
 
 # Raw data
-table_ph_raw = read_csv("MSI25_experiment_table_pH.csv")
+table_ph_raw <- read_csv("MSI25_experiment_table_pH.csv")
 
 # Initial cleaning
-table_ph = table_ph_raw %>%
+table_ph <- table_ph_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
@@ -174,15 +174,15 @@ table_ph = table_ph_raw %>%
 #--
 
 # Raw data
-np_mass_raw = read_csv("MSI25_experiment_nutrient_pack_masses.csv")
+np_mass_raw <- read_csv("MSI25_experiment_nutrient_pack_masses.csv")
 
 # Initial cleaning
-np_mass = np_mass_raw %>%
+np_mass <- np_mass_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(date = mdy(date))
 
 # Process
-np_mass = np_mass %>%
+np_mass <- np_mass %>%
    rename(pull_date = date) %>%
    mutate(burial_date = as_date("2025-08-29")) %>%
    relocate(treatment_nutrients, burial_date, pull_date, .after = table) %>%
@@ -199,13 +199,13 @@ np_mass = np_mass %>%
 #--
 
 # Raw data
-hobo_t1_raw = read_csv("HOBO logger data/T1-22182670 2025-10-19 09_44_26 CDT.csv")
-hobo_t2_raw = read_csv("HOBO logger data/T2-22182671 2025-10-19 09_45_24 CDT.csv")
-hobo_t4_raw = read_csv("HOBO logger data/T4-22182675 2025-10-19 09_46_26 CDT.csv")
-hobo_t5_raw = read_csv("HOBO logger data/T5-22182669 2025-10-19 09_47_01 CDT.csv")
+hobo_t1_raw <- read_csv("HOBO logger data/T1-22182670 2025-10-19 09_44_26 CDT.csv")
+hobo_t2_raw <- read_csv("HOBO logger data/T2-22182671 2025-10-19 09_45_24 CDT.csv")
+hobo_t4_raw <- read_csv("HOBO logger data/T4-22182675 2025-10-19 09_46_26 CDT.csv")
+hobo_t5_raw <- read_csv("HOBO logger data/T5-22182669 2025-10-19 09_47_01 CDT.csv")
 
 # Clean, combine, and process
-temp_dat = bind_rows(hobo_t1_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T1"),
+temp_dat <- bind_rows(hobo_t1_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T1"),
                      hobo_t2_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T2"),
                      hobo_t4_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T4"),
                      hobo_t5_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T5")) %>%

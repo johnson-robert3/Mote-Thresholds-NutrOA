@@ -13,7 +13,7 @@
 # Porewater sample data ('porewater' df created in the 'data_import-and-process' script)
 
 #- Sulfide concentration in original porewater
-porewater_plant = porewater %>%
+porewater_plant <- porewater %>%
    # create sample_id column to match spec data for joining
    mutate(sample_id = paste0("MSI25-", table, "-", plant_id, "-", week)) %>%
    relocate(sample_id) %>%
@@ -35,7 +35,7 @@ porewater_plant = porewater %>%
 
 
 # Calculate mean and SE for each treatment over time
-porewater_trt = porewater_plant %>%
+porewater_trt <- porewater_plant %>%
    # treatment mean and SE
    summarize(across(c(pH, porewater_S_uM), list(mean = ~mean(., na.rm=TRUE), se = se), .names = "{.fn}_{.col}"), 
              .by = c(treatment_ph, treatment_nutrients, week))
@@ -57,7 +57,7 @@ porewater_trt = porewater_plant %>%
 # need to get Temperature data for the tables from the HOBO time series
 # get salinity data from the CarbCHEM dataset
 
-tmp = temp_dat %>%
+tmp <- temp_dat %>%
    filter(date %in% c(porewater %>% pull(date) %>% unique())) %>% 
    select(-date_time) %>%
    filter(between(.$time, "06:00:00", "12:00:00")) %>%
@@ -66,7 +66,7 @@ tmp = temp_dat %>%
 
 # To estimate the fraction of dissolved sulfide that is H2S
 
-calc_h2s = function(.dat, temp_c, salinity, pH) {  # function not done yet!! need to be able to apply to a data frame (like 'calc_S_conc' function)
+calc_h2s <- function(.dat, temp_c, salinity, pH) {  # function not done yet!! need to be able to apply to a data frame (like 'calc_S_conc' function)
    
    # equations from MacLeod et al. 2023 and Millero 1986
    

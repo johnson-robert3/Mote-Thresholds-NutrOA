@@ -6,7 +6,7 @@
 
 
 # initial data
-tmp = epiphytes %>%
+tmp <- epiphytes %>%
    # calculate epiphyte dry mass (units = g) (from all blades/shoots in a pot)
    mutate(epi_biomass_g = sample_dish_mass_g - dish_mass_g) %>%
    # add other plant info
@@ -16,7 +16,7 @@ tmp = epiphytes %>%
 
 
 # add other plant parameters on
-tmp1 = tmp %>%
+tmp1 <- tmp %>%
    select(-sample_dish_mass_g, -dish_mass_g) %>%
    rename(notes_epi = notes) %>%
    # shoot biomass
@@ -26,7 +26,7 @@ tmp1 = tmp %>%
 
 
 # standardize epiphytes to other vars
-epi_plant = tmp1 %>%
+epi_plant <- tmp1 %>%
    mutate(
       # to blade length (BL) (units = mg/cm)
       epi_by_BL = epi_biomass_g*1000 / blade_length,

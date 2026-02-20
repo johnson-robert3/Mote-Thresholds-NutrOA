@@ -8,13 +8,13 @@
 # Values for figures
 
 # pH treatment color for Halodule (blues)
-ph_col_hw = c('ambient' = "#4988C4", 'OA' = "#0F2854")  # ambient - light; OA - dark
+ph_col_hw <- c('ambient' = "#4988C4", 'OA' = "#0F2854")  # ambient - light; OA - dark
 # pH treatment color for Thalassia (greens)
-ph_col_tt = c('ambient' = "#00B7B5", 'OA' = "#005461")  # ambient - light; OA - dark
+ph_col_tt <- c('ambient' = "#00B7B5", 'OA' = "#005461")  # ambient - light; OA - dark
 
 
 # function for aesthetics
-fig_theme = function (.fig) {
+fig_theme <- function (.fig) {
    
    .fig +
       theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1),
@@ -31,7 +31,7 @@ fig_theme = function (.fig) {
 ## Create temporary datasets for figures
 
 # use this df for viewing mortality over time (each nutrient treatment as its own line)
-mort.ts = hw_mort %>% mutate(species = "Hw") %>%
+mort.ts <- hw_mort %>% mutate(species = "Hw") %>%
    # combine Hw and Tt data
    full_join(tt_mort %>% mutate(species = "Tt")) %>%
    relocate(species) %>%
@@ -51,7 +51,7 @@ mort.ts = hw_mort %>% mutate(species = "Hw") %>%
 
 
 # use this df for viewing differences among nutrient treatments at specific time points (each pH treatment or species as its own line)
-mort.comp = hw_mort %>% mutate(species = "Hw") %>%
+mort.comp <- hw_mort %>% mutate(species = "Hw") %>%
    # combine Hw and Tt data
    full_join(tt_mort %>% mutate(species = "Tt")) %>%
    relocate(species) %>%
