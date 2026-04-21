@@ -11,7 +11,6 @@ setwd("C:/Users/rajohnson6/Box/Projects/Mote Seagrass Thresholds/Mote Data")
 
 # load libraries
 library(tidyverse)
-library(lubridate)
 
 
 # Standard Error function for use in other scripts
@@ -29,7 +28,7 @@ plant_ids_raw <- read_csv("MSI25_experiment_plantID_treatment_info.csv")
 plant_dat <- plant_ids_raw %>%
    janitor::remove_empty(which="rows") %>%
    # drop plant IDs that didn't get used
-   filter(notes!="plant ID not used" | is.na(notes))
+   filter_out(notes == "plant ID not used")
 
 
 #--
@@ -45,7 +44,7 @@ leaf_counts <- counts_raw %>%
    mutate(week = paste0("w", week),
           date = mdy(date)) %>%
    # drop plant IDs that didn't get used
-   filter(notes!="plant ID not used" | is.na(notes))
+   filter_out(notes == "plant ID not used")
 
 
 #--
