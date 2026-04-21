@@ -310,7 +310,9 @@ ggplot(morph_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!=
 
 # Hw leaf biomass at wk 6, as mean + SE
 ggplot(biomass_plant %>% filter(week=="w6" & species=="Hw" & treatment_nutrients!="pulsed") %>%
-          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor(),
+                 # convert to mg
+                 shoot_biomass_g = shoot_biomass_g * 1000) %>%
           summarize(mean = mean(shoot_biomass_g, na.rm=TRUE),
                     se = se(shoot_biomass_g),
                     .by = c(treatment_ph, treatment_nutrients))) +
@@ -319,9 +321,9 @@ ggplot(biomass_plant %>% filter(week=="w6" & species=="Hw" & treatment_nutrients
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
                  position = position_dodge(width=0.3), width=0, linewidth=0.67) +
    scale_color_manual(values = ph_col_hw) +
-   labs(title = "Hw shoot biomass at week 6 (mean ± SE)",
+   labs(title = "Halodule shoot biomass - Stress (wk 6)",
         x = "Nutrient treatment",
-        y = "Hw shoot biomass (g)") +
+        y = "Shoot biomass (mg DM)") +
    theme_classic() %>%
    fig_theme()
 
@@ -341,7 +343,7 @@ ggplot(biomass_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients
                         shoot_biomass_g = shoot_biomass_g * 1000),
               aes(x = treatment_nutrients, y = shoot_biomass_g, color = treatment_ph), 
               # size=1.5, shape=16, alpha=0.4, position = position_dodge(width=0.3)) +
-              size=2, shape=19, alpha=0.2, position = position_jitterdodge(dodge.width=0.3, jitter.width=0.2)) +
+              size=1.75, shape=19, alpha=0.3, position = position_jitterdodge(dodge.width=0.3, jitter.width=0.1)) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
@@ -361,18 +363,22 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_bi
 
 # Tt leaf biomass at wk 6, as mean + SE
 ggplot(biomass_plant %>% filter(week=="w6" & species=="Tt" & treatment_nutrients!="pulsed") %>%
-          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor(),
+                 # convert to mg
+                 shoot_biomass_g = shoot_biomass_g * 1000) %>%
           summarize(mean = mean(shoot_biomass_g, na.rm=TRUE),
                     se = se(shoot_biomass_g),
                     .by = c(treatment_ph, treatment_nutrients))) +
-   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
-              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
                  position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(values = ph_col_tt) +
-   labs(title = "Tt shoot biomass at week 6 (mean ± SE)",
+   labs(title = "Thalassia shoot biomass - Stress (wk 6)",
         x = "Nutrient treatment",
-        y = "Tt shoot biomass (g)") +
+        y = "Shoot biomass (mg DM)") +
    theme_classic() %>%
    fig_theme()
 
@@ -386,6 +392,14 @@ ggplot(biomass_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients
           summarize(mean = mean(shoot_biomass_g, na.rm=TRUE),
                     se = se(shoot_biomass_g),
                     .by = c(treatment_ph, treatment_nutrients))) +
+   # faint data points in background
+   geom_point(data = biomass_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!="pulsed") %>%
+                 mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor(),
+                        shoot_biomass_g = shoot_biomass_g * 1000),
+              aes(x = treatment_nutrients, y = shoot_biomass_g, color = treatment_ph), 
+              # size=1.5, shape=16, alpha=0.4, position = position_dodge(width=0.3)) +
+              size=1.75, shape=19, alpha=0.3, position = position_jitterdodge(dodge.width=0.3, jitter.width=0.1)) +
+   #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
