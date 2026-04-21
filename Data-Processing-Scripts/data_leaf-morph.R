@@ -134,7 +134,7 @@ biomass_plant <- shoot_biomass %>%
    # shoot dry mass (units = g)
    mutate(shoot_biomass_g = sample_bag_mass_g - teabag_mass_g) %>%
    # correct the time when Hw mass was negative (probably a very small blade sample) (just change to the smallest mass)
-   mutate(shoot_biomass_g = replace(shoot_biomass_g, shoot_biomass_g < 0, 0.001)) %>%
+   mutate(shoot_biomass_g = replace_when(shoot_biomass_g, shoot_biomass_g < 0 ~ 0.001)) %>%
    # remove variables not needed
    select(-sample_bag_mass_g, -teabag_mass_g, -notes) %>%
    # add treatment and plant info
