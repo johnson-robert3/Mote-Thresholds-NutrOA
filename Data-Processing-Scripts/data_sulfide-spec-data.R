@@ -77,14 +77,14 @@ calc_vial_S <- function(.processed, .raw, .std_curve) {
 raw_sulf_wk2 <- read_csv("Sulfide spectrophotometer data/2025.12.18 - porewater sulfide_wk2.csv") %>%
    janitor::remove_empty(which = 'rows')
 
-# check measured concentration of standards
-check_stds(raw_sulf_wk2, std_dec25)  # low end stds (L8) are reading low (30% off)...
+   # check measured concentration of standards
+   check_stds(raw_sulf_wk2, std_dec25)  # low end stds (L8) are reading low (30% off)...
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk2 <- rm_zbsc(raw_sulf_wk2)
 
-# check agreement between sample dupes
-sulf_wk2 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
+   # check agreement between sample dupes
+   sulf_wk2 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
 
 # Sulfide concentration in vials (units = uM)
 sulf_wk2 <- calc_vial_S(sulf_wk2, raw_sulf_wk2, std_dec25)
@@ -97,14 +97,14 @@ sulf_wk2 <- calc_vial_S(sulf_wk2, raw_sulf_wk2, std_dec25)
 raw_sulf_wk3 <- read_csv("Sulfide spectrophotometer data/2025.12.19 - porewater sulfide_wk2 reruns and wk3.csv") %>%
    janitor::remove_empty(which = 'rows')
 
-# check measured concentration of standards
-check_stds(raw_sulf_wk3, std_dec25)  # high end stds (L40) are reading low (12% off)...
+   # check measured concentration of standards
+   check_stds(raw_sulf_wk3, std_dec25)  # high end stds (L40) are reading low (12% off)...
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk3 <- rm_zbsc(raw_sulf_wk3)
 
-# check agreement between sample dupes
-sulf_wk3 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
+   # check agreement between sample dupes
+   sulf_wk3 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
 
 # Sulfide concentration in vials (units = uM)
 sulf_wk3 <- calc_vial_S(sulf_wk3, raw_sulf_wk3, std_dec25)
@@ -117,14 +117,14 @@ sulf_wk3 <- calc_vial_S(sulf_wk3, raw_sulf_wk3, std_dec25)
 raw_sulf_wk6 <- read_csv("Sulfide spectrophotometer data/2026.01.02 - porewater sulfide_wk6.csv") %>%
    janitor::remove_empty(which = 'rows')
 
-# check measured concentration of standards
-check_stds(raw_sulf_wk6, std_dec25)  # looks good (L2 is a bit low)
+   # check measured concentration of standards
+   check_stds(raw_sulf_wk6, std_dec25)  # looks good (L2 is a bit low)
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk6 <- rm_zbsc(raw_sulf_wk6)
 
-# check agreement between sample dupes
-sulf_wk6 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
+   # check agreement between sample dupes
+   sulf_wk6 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
 
 # Sulfide concentration in vials (units = uM)
 sulf_wk6 <- calc_vial_S(sulf_wk6, raw_sulf_wk6, std_dec25) %>%
@@ -139,14 +139,14 @@ sulf_wk6 <- calc_vial_S(sulf_wk6, raw_sulf_wk6, std_dec25) %>%
 raw_sulf_wk9 <- read_csv("Sulfide spectrophotometer data/2026.01.20 - porewater sulfide_wk9.csv") %>%
    janitor::remove_empty(which = 'rows')
 
-# check measured concentration of standards
-check_stds(raw_sulf_wk9, std_dec25)  # looks good 
+   # check measured concentration of standards
+   check_stds(raw_sulf_wk9, std_dec25)  # looks good 
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk9 <- rm_zbsc(raw_sulf_wk9)
 
-# check agreement between sample dupes
-sulf_wk9 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
+   # check agreement between sample dupes
+   sulf_wk9 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
 
 # Sulfide concentration in vials (units = uM)
 sulf_wk9 <- calc_vial_S(sulf_wk9, raw_sulf_wk9, std_dec25)
@@ -159,6 +159,7 @@ sulf_wk9 <- calc_vial_S(sulf_wk9, raw_sulf_wk9, std_dec25)
    ## probably want to rerun all wk9 samples that had an abs. below 0.10 at a dilution of 1:20; rerun at a dilution of 1:5
    raw_sulf_wk9 %>% filter(dilution_pre == 20 & abs_667 < 0.10 & !(str_detect(sample_id, pattern="dup"))) %>% print(n=Inf)
       # but don't need to rerun the 3 samples where the original (at 1:1 dilution) was within the curve (notes for these 3 at 1:20 say "disregard...")
+   
    # sample ID list
    wk9_rerun_ids <- raw_sulf_wk9 %>% 
       filter(dilution_pre == 20 & abs_667 < 0.10 & !(str_detect(sample_id, pattern="dup"))) %>%
@@ -177,14 +178,14 @@ sulf_wk9 <- sulf_wk9 %>% anti_join(wk9_rerun_ids)
 raw_sulf_wk9_reruns <- read_csv("Sulfide spectrophotometer data/2026.02.06 - porewater sulfide_wk9_reruns.csv") %>%
    janitor::remove_empty(which = 'rows')
 
-# check measured concentration of standards
-check_stds(raw_sulf_wk9_reruns, std_dec25)  # a bit off at the low end (L2) 
+   # check measured concentration of standards
+   check_stds(raw_sulf_wk9_reruns, std_dec25)  # a bit off at the low end (L2) 
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk9_reruns <- rm_zbsc(raw_sulf_wk9_reruns)
 
-# check agreement between sample dupes
-sulf_wk9_reruns %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
+   # check agreement between sample dupes
+   sulf_wk9_reruns %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
 
 # Sulfide concentration in vials (units = uM)
 sulf_wk9_reruns <- calc_vial_S(sulf_wk9_reruns, raw_sulf_wk9_reruns, std_dec25)
