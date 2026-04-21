@@ -65,7 +65,7 @@ shoots_all <- leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_da
    # keep only the 8/29 data for these plants (Hw data is the same across both dates; Tt plants died on 8/29 for these 7 IDs)
    filter(!(date == "2025-08-28" & plant_id %in% c(leaf_counts %>% filter(date == "2025-08-29") %>% pull(plant_id)))) %>%
    # omit the plant IDs with issues identified in the 'data_plant-mortality' script
-   filter(!(plant_id %in% c("A018", "L006", "L171", "L163", "H117")))
+   filter_out(plant_id %in% c("A018", "L006", "L171", "L163", "H117"))
 
 
 # Add a variable for Thalassia shoot count (this accounts for times when a second (or third) Tt shoot was recorded in the notes column)
@@ -112,7 +112,7 @@ shoots_plant <- shoots_all %>%
 # Calculate mean and SE for each treatment over time
 shoots_trt <- shoots_plant %>%
    # remove wks 3 and 8 (only dead/missing plants recorded these weeks; number of blades/shoots were not counted if plant was present)
-   filter(!(week %in% c('w3', 'w8'))) %>%
+   filter_out(week %in% c('w3', 'w8')) %>%
    summarize(across(starts_with("tt_") | starts_with("hw_"), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), 
              n=n(),
              .by=c(treatment_ph, treatment_nutrients, week)) 
