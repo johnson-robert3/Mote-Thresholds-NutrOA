@@ -94,7 +94,7 @@ hw_surv %>%
 
 
 # df of Halodule survivorship
-hw_surv <- hw_surv %>% filter(!(plant_id %in% c("L006", "L171")))
+hw_surv <- hw_surv %>% filter_out(plant_id %in% c("L006", "L171"))
 
 # view survivorship by treatment
 hw_mort <- hw_surv %>%
@@ -168,7 +168,7 @@ tt_surv <- plants %>%
 
 # df of Thalassia survivorship 
 # (remove the two plants identified above that were only recorded as alive at wk 6)
-tt_surv <- tt_surv %>% filter(!(plant_id %in% c("L163", "H117"))) 
+tt_surv <- tt_surv %>% filter_out(plant_id %in% c("L163", "H117"))
 
 
 # view survivorship by treatment
