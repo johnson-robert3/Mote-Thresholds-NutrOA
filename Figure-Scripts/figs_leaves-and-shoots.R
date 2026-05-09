@@ -12,6 +12,52 @@
 
 #-- Number of shoots --#
 
+# Hw - week 9
+ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & hw_shoots>0) %>%  # only including plants w/ living Hw
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          summarize(mean = mean(hw_shoots, na.rm=TRUE),
+                    se = se(hw_shoots),
+                    .by = c(treatment_ph, treatment_nutrients))) +
+   #
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+   scale_color_manual(name = 'pH', values = ph_col_hw) +
+   labs(title = "Halodule shoots - Recovery (wk 9)",
+        x = "Nutrient treatment (g)",
+        y = "Number of shoots (per pot)") +
+   theme_classic() +
+   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_shoots_w9.png", height=4, width=5, units="in", dpi=300)
+
+
+# Tt - week 9
+ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & tt_shoots>0) %>%  # only including plants w/ living Hw
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          summarize(mean = mean(tt_shoots, na.rm=TRUE),
+                    se = se(tt_shoots),
+                    .by = c(treatment_ph, treatment_nutrients))) +
+   #
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+   scale_color_manual(name = 'pH', values = ph_col_tt) +
+   labs(title = "Thalassia shoots - Recovery (wk 9)",
+        x = "Nutrient treatment (g)",
+        y = "Number of shoots (per pot)") +
+   theme_classic() +
+   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_shoots_w9.png", height=4, width=5, units="in", dpi=300)
+
+
 
 #-- Number of leaves --#
 
@@ -30,12 +76,14 @@ ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & hw_b
              position = position_dodge(width=0.3), linewidth=0.75) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
                  position = position_dodge(width=0.3), width=0, linewidth=0.67) +
-   scale_color_manual(values = ph_col_hw) +
+   scale_color_manual(name = 'pH', values = ph_col_hw) +
    labs(title = "Halodule number leaves - Recovery (wk 9)",
         x = "Nutrient treatment (g)",
         y = "Number of leaves (per pot)") +
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_leaves_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Tt - week 9
@@ -50,27 +98,62 @@ ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & tt_b
              position = position_dodge(width=0.3), linewidth=0.75) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
                  position = position_dodge(width=0.3), width=0, linewidth=0.67) +
-   scale_color_manual(values = ph_col_tt) +
-   labs(title = "Tt number leaves - Recovery (wk 9)",
+   scale_color_manual(name = 'pH', values = ph_col_tt) +
+   labs(title = "Thalassia number leaves - Recovery (wk 9)",
         x = "Nutrient treatment (g)",
         y = "Number of leaves (per pot)") +
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_leaves_w9.png", height=4, width=5, units="in", dpi=300)
+
 
 #-- Blades per shoot --#
+
+# Hw - week 9
+ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & hw_bps>0) %>%  # only including plants w/ living Hw
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          summarize(mean = mean(hw_bps, na.rm=TRUE),
+                    se = se(hw_bps),
+                    .by = c(treatment_ph, treatment_nutrients))) +
+   #
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+   scale_color_manual(name = 'pH', values = ph_col_hw) +
+   labs(title = "Halodule BPS - Recovery (wk 9)",
+        x = "Nutrient treatment (g)",
+        y = "Blades per shoot") +
+   theme_classic() +
+   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_bps_w9.png", height=4, width=5, units="in", dpi=300)
+
 
 # Tt - week 9
 ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & tt_bps>0) %>%  # only including plants w/ living Tt
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean_bps = mean(tt_bps, na.rm=TRUE),
-                    se_bps = se(tt_bps),
+          summarize(mean = mean(tt_bps, na.rm=TRUE),
+                    se = se(tt_bps),
                     .by = c(treatment_ph, treatment_nutrients))) +
-   geom_point(aes(x = treatment_nutrients, y = mean_bps, color = treatment_ph), size=2) +
-   geom_errorbar(aes(x = treatment_nutrients, y = mean_bps, ymin = mean_bps - se_bps, ymax = mean_bps + se_bps, color = treatment_ph), width=0.2) +
-   labs(title = "Tt blades per shoot at week 9 (mean ± SE)",
-        x = "Nutrient treatment",
-        y = "Tt blades per shoot")
+   #
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+   scale_color_manual(name = 'pH', values = ph_col_tt) +
+   labs(title = "Thalassia BPS - Recovery (wk 9)",
+        x = "Nutrient treatment (g)",
+        y = "Blades per shoot") +
+   theme_classic() +
+   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_bps_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 
