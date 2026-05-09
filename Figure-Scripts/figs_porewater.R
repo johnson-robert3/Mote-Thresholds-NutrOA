@@ -90,6 +90,8 @@ ggplot(porewater_trt %>% filter(week == "w6" & treatment_nutrients!="pulsed") %>
         x = "Nutrient treatment",
         y = "Total dissolved sulfide (uM)")
 
+   # sulfide is very low across treatments at 6 weeks; maybe the nutrients stimulated denitrification? so denitrifiers outcompeted sulfate reducers?
+
 
 # porewater DS between treatments at wk 9, mean + SE
 ggplot(porewater_trt %>% filter(week == "w9" & treatment_nutrients!="pulsed") %>%
