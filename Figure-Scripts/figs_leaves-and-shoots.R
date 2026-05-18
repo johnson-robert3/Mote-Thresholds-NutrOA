@@ -13,10 +13,11 @@
 #-- Number of shoots --#
 
 # Hw - week 9
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & hw_shoots>0) %>%  # only including plants w/ living Hw
+ggplot(shoots_plant %>% 
+          filter(species == "Hw" & week=="w9" & treatment_nutrients!="pulsed" & shoot_count>0) %>%  # only including plants w/ living Hw
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean = mean(hw_shoots, na.rm=TRUE),
-                    se = se(hw_shoots),
+          summarize(mean = mean(shoot_count, na.rm=TRUE),
+                    se = se(shoot_count),
                     .by = c(treatment_ph, treatment_nutrients))) +
    #
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
@@ -36,10 +37,11 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_sh
 
 
 # Tt - week 9
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & tt_shoots>0) %>%  # only including plants w/ living Hw
+ggplot(shoots_plant %>% 
+          filter(species == "Tt" & week=="w9" & treatment_nutrients!="pulsed" & shoot_count>0) %>%  # only including plants w/ living Hw
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean = mean(tt_shoots, na.rm=TRUE),
-                    se = se(tt_shoots),
+          summarize(mean = mean(shoot_count, na.rm=TRUE),
+                    se = se(shoot_count),
                     .by = c(treatment_ph, treatment_nutrients))) +
    #
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
@@ -62,10 +64,11 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_sh
 #-- Number of leaves --#
 
 # Hw - week 9
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & hw_blades>0) %>%  # only including plants w/ living Hw
+ggplot(shoots_plant %>% 
+          filter(species == "Hw" & week=="w9" & treatment_nutrients!="pulsed" & leaf_count>0) %>%  # only including plants w/ living Hw
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean = mean(hw_blades, na.rm=TRUE),
-                    se = se(hw_blades),
+          summarize(mean = mean(leaf_count, na.rm=TRUE),
+                    se = se(leaf_count),
                     .by = c(treatment_ph, treatment_nutrients))) +
    
    # will still need to somehow relate this to the number of leaves at the start (wk2) (b/c plants started with different numbers of shoots)
@@ -87,10 +90,11 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_le
 
 
 # Tt - week 9
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & tt_blades>0) %>%  # only including plants w/ living Tt
+ggplot(shoots_plant %>% 
+          filter(species == "Tt" & week=="w9" & treatment_nutrients!="pulsed" & leaf_count>0) %>%  # only including plants w/ living Tt
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean = mean(tt_blades, na.rm=TRUE),
-                    se = se(tt_blades),
+          summarize(mean = mean(leaf_count, na.rm=TRUE),
+                    se = se(leaf_count),
                     .by = c(treatment_ph, treatment_nutrients))) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
@@ -111,10 +115,11 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_le
 #-- Blades per shoot --#
 
 # Hw - week 9
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & hw_bps>0) %>%  # only including plants w/ living Hw
+ggplot(shoots_plant %>% 
+          filter(species == "Hw" & week=="w9" & treatment_nutrients!="pulsed" & bps>0) %>%  # only including plants w/ living Hw
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean = mean(hw_bps, na.rm=TRUE),
-                    se = se(hw_bps),
+          summarize(mean = mean(bps, na.rm=TRUE),
+                    se = se(bps),
                     .by = c(treatment_ph, treatment_nutrients))) +
    #
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
@@ -134,10 +139,11 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_bp
 
 
 # Tt - week 9
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & tt_bps>0) %>%  # only including plants w/ living Tt
+ggplot(shoots_plant %>% 
+          filter(species == "Tt" & week=="w9" & treatment_nutrients!="pulsed" & bps>0) %>%  # only including plants w/ living Tt
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean = mean(tt_bps, na.rm=TRUE),
-                    se = se(tt_bps),
+          summarize(mean = mean(bps, na.rm=TRUE),
+                    se = se(bps),
                     .by = c(treatment_ph, treatment_nutrients))) +
    #
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
@@ -160,10 +166,10 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_bp
 # Box and whisker plots with jittered data points
 {
 # Halodule - number of shoots at wk 9, as a box and whisker plot with jittered data points
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed") %>%
+ggplot(shoots_plant %>% filter(species == "Hw" & week=="w9" & treatment_nutrients!="pulsed") %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
-   geom_boxplot(aes(x = treatment_nutrients, y = hw_shoots, color = treatment_ph), outliers = FALSE) +
-   geom_jitter(aes(x = treatment_nutrients, y = hw_shoots, color = treatment_ph, shape = site), 
+   geom_boxplot(aes(x = treatment_nutrients, y = shoot_count, color = treatment_ph), outliers = FALSE) +
+   geom_jitter(aes(x = treatment_nutrients, y = shoot_count, color = treatment_ph, shape = site), 
                position = position_jitterdodge(jitter.width=0.2, jitter.height=0.2)) +
    labs(title = "Hw number of shoots at week 9",
         x = "Nutrient treatment",
@@ -171,10 +177,10 @@ ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed") %>%
 
 
 # Halodule - number of leaves at wk 9, as a box and whisker plot with jittered data points
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed") %>%
+ggplot(shoots_plant %>% filter(species == "Hw" & week=="w9" & treatment_nutrients!="pulsed") %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
-   geom_boxplot(aes(x = treatment_nutrients, y = hw_blades, color = treatment_ph), outliers = FALSE) +
-   geom_jitter(aes(x = treatment_nutrients, y = hw_blades, color = treatment_ph, shape = site), 
+   geom_boxplot(aes(x = treatment_nutrients, y = leaf_count, color = treatment_ph), outliers = FALSE) +
+   geom_jitter(aes(x = treatment_nutrients, y = leaf_count, color = treatment_ph, shape = site), 
                position = position_jitterdodge(jitter.width=0.2, jitter.height=0.2)) +
    labs(title = "Hw number of leaves at week 9",
         x = "Nutrient treatment",
@@ -182,10 +188,10 @@ ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed") %>%
 
 
 # Thalassia - number of shoots at wk 9, as a box and whisker plot with jittered data points
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed") %>%
+ggplot(shoots_plant %>% filter(species == "Tt" & week=="w9" & treatment_nutrients!="pulsed") %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
-   geom_boxplot(aes(x = treatment_nutrients, y = tt_shoots, color = treatment_ph), outliers = FALSE) +
-   geom_jitter(aes(x = treatment_nutrients, y = tt_shoots, color = treatment_ph, shape = site), 
+   geom_boxplot(aes(x = treatment_nutrients, y = shoot_count, color = treatment_ph), outliers = FALSE) +
+   geom_jitter(aes(x = treatment_nutrients, y = shoot_count, color = treatment_ph, shape = site), 
                position = position_jitterdodge(jitter.width=0.2, jitter.height=0.2)) +
    labs(title = "Tt number of shoots at week 9",
         x = "Nutrient treatment",
@@ -193,10 +199,10 @@ ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed") %>%
 
 
 # Thalassia - total number of leaves at wk 9, as a box and whisker plot with jittered data points
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients!="pulsed" & tt_blades>0) %>%  # only including plants w/ living Tt
+ggplot(shoots_plant %>% filter(species == "Tt" & week=="w9" & treatment_nutrients!="pulsed" & tt_blades>0) %>%  # only including plants w/ living Tt
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
-   geom_boxplot(aes(x = treatment_nutrients, y = tt_blades, color = treatment_ph), outliers = FALSE) +
-   geom_jitter(aes(x = treatment_nutrients, y = tt_blades, color = treatment_ph, shape = site), 
+   geom_boxplot(aes(x = treatment_nutrients, y = leaf_count, color = treatment_ph), outliers = FALSE) +
+   geom_jitter(aes(x = treatment_nutrients, y = leaf_count, color = treatment_ph, shape = site), 
                position = position_jitterdodge(jitter.width=0.2, jitter.height=0.2)) +
    labs(title = "Tt number of leaves at week 9",
         x = "Nutrient treatment",
