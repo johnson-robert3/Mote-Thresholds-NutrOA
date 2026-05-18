@@ -10,9 +10,9 @@ library(cowplot)
 
 #- Blades per shoot
 bps <-
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients=="0g" & hw_bps>0) %>%  # only including plants w/ living Hw
-          summarize(mean = mean(hw_bps, na.rm=TRUE),
-                    se = se(hw_bps),
+ggplot(shoots_plant %>% filter(species == "Hw" & week=="w9" & treatment_nutrients=="0g" & bps>0) %>%  # only including plants w/ living Hw
+          summarize(mean = mean(bps, na.rm=TRUE),
+                    se = se(bps),
                     .by = treatment_ph)) +
    #
    geom_point(aes(x = treatment_ph, y = mean, color = treatment_ph), 
@@ -35,7 +35,7 @@ ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients=="0g" & hw_bps>0
 
 #- Blade length
 bl <-
-ggplot(morph_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients=="0g") %>%
+ggplot(morph_plant %>% filter(species=="Hw" & week=="w9" & treatment_nutrients=="0g") %>%
           summarize(mean = mean(blade_length, na.rm=TRUE),
                     se = se(blade_length),
                     .by = treatment_ph)) +
@@ -72,9 +72,9 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_bl
 
 
 #- Number of shoots per plant
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients=="0g" & hw_shoots>0) %>%  # only including plants w/ living Hw
-          summarize(mean = mean(hw_shoots, na.rm=TRUE),
-                    se = se(hw_shoots),
+ggplot(shoots_plant %>% filter(species == "Hw" & week=="w9" & treatment_nutrients=="0g" & shoot_count>0) %>%  # only including plants w/ living Hw
+          summarize(mean = mean(shoot_count, na.rm=TRUE),
+                    se = se(shoot_count),
                     .by = treatment_ph)) +
    #
    geom_point(aes(x = treatment_ph, y = mean, color = treatment_ph), 
@@ -92,9 +92,9 @@ ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients=="0g" & hw_shoot
 
 
 #- Number of leaves per plant
-ggplot(shoots_plant %>% filter(week=="w9" & treatment_nutrients=="0g" & hw_blades>0) %>%  # only including plants w/ living Hw
-          summarize(mean = mean(hw_blades, na.rm=TRUE),
-                    se = se(hw_blades),
+ggplot(shoots_plant %>% filter(species == "Hw" & week=="w9" & treatment_nutrients=="0g" & leaf_count>0) %>%  # only including plants w/ living Hw
+          summarize(mean = mean(leaf_count, na.rm=TRUE),
+                    se = se(leaf_count),
                     .by = treatment_ph)) +
    #
    geom_point(aes(x = treatment_ph, y = mean, color = treatment_ph), 
