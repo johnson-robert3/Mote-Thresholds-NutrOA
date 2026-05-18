@@ -318,36 +318,6 @@ ggplot(morph_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!=
 
 
 
-#-- Blade Area --#
-# mean surface area of individual blades
-
-# Hw - week 9
-ggplot(morph_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients!="pulsed") %>%
-          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean = mean(blade_area, na.rm=TRUE),
-                    se = se(blade_area),
-                    .by = c(treatment_ph, treatment_nutrients))) +
-   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), size=2) +
-   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), width=0.2) +
-   labs(title = "Hw blade area at week 9 (mean ± SE)",
-        x = "Nutrient treatment",
-        y = "Hw blade size (cm^2)")
-
-
-# Tt - week 9
-ggplot(morph_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!="pulsed") %>%
-          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
-          summarize(mean = mean(blade_area, na.rm=TRUE),
-                    se = se(blade_area),
-                    .by = c(treatment_ph, treatment_nutrients))) +
-   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), size=2) +
-   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), width=0.2) +
-   labs(title = "Tt blade area at week 9 (mean ± SE)",
-        x = "Nutrient treatment",
-        y = "Tt blade size (cm^2)")
-
-
-
 #-- Leaf Surface Area --#
 # total surface area of all leaves in each pot
 
