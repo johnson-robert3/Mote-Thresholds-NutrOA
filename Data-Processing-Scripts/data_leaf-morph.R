@@ -58,7 +58,6 @@ morph_trt <- morph_plant %>%
 # Number of shoots and number of blades in each pot over time for each species
 
 # Create  a df similar to 'plants' from the 'data_plant-mortality' script, but omit plant IDs with identified issues
-
 # Combine leaf/shoot count data with plant_ID data
 shoots_all <- leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat) %>%
    # 7 plant IDs were duplicated between 8/28 and 8/29
@@ -105,8 +104,29 @@ shoots_plant <- shoots_all %>%
                              .default = 0)) %>%
    # remove variables that are no longer needed
    select(-tt_blades_og_shoot, -tt_blades_xtra_shoots) %>%
+   # rearrange
    relocate(tt_blades, .after = tt_shoots) %>%
    relocate(tt_bps, hw_bps, .after = hw_blades)
+
+
+# Lengthen the dataset and add a species column, to match the format of the morphometry and biomass datasets
+tmp.hw <- shoots_plant %>%
+   select(-starts_with("tt_")) %>%
+   rename(leaf_count = hw_blades, shoot_count = hw_shoots, bps = hw_bps) %>%
+   mutate(species = "Hw") %>%
+   relocate(species, .after = "date")
+
+tmp.tt <- shoots_plant %>%
+   select(-starts_with("hw_")) %>%
+   rename(leaf_count = tt_blades, shoot_count = tt_shoots, bps = tt_bps) %>%
+   mutate(species = "Tt") %>%
+   relocate(species, .after = "date")
+
+
+shoots_plant <- bind_rows(tmp.tt, tmp.hw)
+
+#remove temporary dfs
+rm(tmp.tt, tmp.hw)
 
 
 # Calculate mean and SE for each treatment over time
@@ -114,11 +134,11 @@ shoots_trt <- shoots_plant %>%
    # remove wks 3 and 8 (only dead/missing plants recorded these weeks; number of blades/shoots were not counted if plant was present)
    filter_out(week %in% c('w3', 'w8')) %>%
    # replace 0's with NA, so that missing plants are excluded from mean values
-   mutate(across(starts_with("tt_") | starts_with("hw_"), ~replace_values(., 0 ~ NA_real_))) %>% 
+   mutate(across(c(shoot_count, leaf_count, bps), ~replace_values(., 0 ~ NA_real_))) %>% 
    # treatment means
-   summarize(across(starts_with("tt_") | starts_with("hw_"), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), 
+   summarize(across(c(shoot_count, leaf_count, bps), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), 
              n=n(),
-             .by=c(treatment_ph, treatment_nutrients, week)) 
+             .by=c(treatment_ph, treatment_nutrients, week, species)) 
 
 
 
