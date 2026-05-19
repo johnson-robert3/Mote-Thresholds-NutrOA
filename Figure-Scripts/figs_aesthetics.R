@@ -12,6 +12,9 @@ ph_col_hw <- c('ambient' = "#4988C4", 'OA' = "#0F2854")  # ambient - light; OA -
 # pH treatment color for Thalassia (greens)
 ph_col_tt <- c('ambient' = "#00B7B5", 'OA' = "#005461")  # ambient - light; OA - dark
 
+# pH treatment color for pot-level variables (e.g., porewater) (purples)
+ph_col_env <- c('ambient' = "#9A0680", 'OA' = "#4C0070")  # ambient - light; OA - dark
+
 
 
 #- Function for figure aesthetics
