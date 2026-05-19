@@ -44,7 +44,10 @@ leaf_counts <- counts_raw %>%
    mutate(week = paste0("w", week),
           date = mdy(date)) %>%
    # drop plant IDs that didn't get used
-   filter_out(notes == "plant ID not used") %>%
+   filter_out(notes == "plant ID not used")
+
+# Fix some plant ID issues
+leaf_counts <- leaf_counts %>%
    # 7 plant IDs were duplicated between 8/28 and 8/29
    # keep only the 8/29 data for these plants (Hw data is the same across both dates; Tt plants died on 8/29 for these 7 IDs)
    filter(!(date == "2025-08-28" & plant_id %in% c(leaf_counts %>% filter(date == "2025-08-29") %>% pull(plant_id)))) %>%
@@ -99,7 +102,7 @@ shoot_biomass <- shoot_biomass_raw %>%
 
 
 #--
-# Seagrass Rhizome Biomass
+# Rhizome Biomass
 #--
 
 # Raw data
