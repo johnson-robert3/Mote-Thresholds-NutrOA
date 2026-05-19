@@ -32,7 +32,7 @@ ggplot(porewater_plant %>% filter(week == "w6" & treatment_nutrients!="pulsed") 
                  position = position_dodge(width=0.3), width=0, linewidth=0.67) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
-   scale_color_manual(name = 'pH', values = ph_col_hw) +
+   scale_color_manual(name = 'pH', values = ph_col_env) +
    labs(title = "Porewater pH - Stress (wk 6)",
         x = "Nutrient treatment (g)",
         y = "pH") +
@@ -54,7 +54,7 @@ ggplot(porewater_plant %>% filter(week == "w9" & treatment_nutrients!="pulsed") 
                  position = position_dodge(width=0.3), width=0, linewidth=0.67) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
-   scale_color_manual(name = 'pH', values = ph_col_hw) +
+   scale_color_manual(name = 'pH', values = ph_col_env) +
    labs(title = "Porewater pH - Recovery (wk 9)",
         x = "Nutrient treatment (g)",
         y = "pH") +
