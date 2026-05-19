@@ -60,11 +60,8 @@ morph_trt <- morph_plant %>%
 # Create  a df similar to 'plants' from the 'data_plant-mortality' script, but omit plant IDs with identified issues
 # Combine leaf/shoot count data with plant_ID data
 shoots_all <- leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat) %>%
-   # 7 plant IDs were duplicated between 8/28 and 8/29
-   # keep only the 8/29 data for these plants (Hw data is the same across both dates; Tt plants died on 8/29 for these 7 IDs)
-   filter(!(date == "2025-08-28" & plant_id %in% c(leaf_counts %>% filter(date == "2025-08-29") %>% pull(plant_id)))) %>%
    # omit the plant IDs with issues identified in the 'data_plant-mortality' script
-   filter_out(plant_id %in% c("A018", "L006", "L171", "L163", "H117"))
+   filter_out(plant_id %in% c("L006", "L171", "L163", "H117"))
 
 
 # Add a variable for Thalassia shoot count (this accounts for times when a second (or third) Tt shoot was recorded in the notes column)

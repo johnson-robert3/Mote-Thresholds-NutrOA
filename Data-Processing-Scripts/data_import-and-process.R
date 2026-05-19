@@ -44,7 +44,13 @@ leaf_counts <- counts_raw %>%
    mutate(week = paste0("w", week),
           date = mdy(date)) %>%
    # drop plant IDs that didn't get used
-   filter_out(notes == "plant ID not used")
+   filter_out(notes == "plant ID not used") %>%
+   # 7 plant IDs were duplicated between 8/28 and 8/29
+   # keep only the 8/29 data for these plants (Hw data is the same across both dates; Tt plants died on 8/29 for these 7 IDs)
+   filter(!(date == "2025-08-28" & plant_id %in% c(leaf_counts %>% filter(date == "2025-08-29") %>% pull(plant_id)))) %>%
+   # plant A018 was removed before the experiment began b/c all seagrass died during acclimation period
+   # just omit here b/c the pot was never assigned to treatments
+   filter_out(plant_id == "A018")
 
 
 #--
