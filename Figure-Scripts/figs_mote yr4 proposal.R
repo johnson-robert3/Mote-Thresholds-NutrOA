@@ -8,6 +8,8 @@ library(cowplot)
 
 #---
 
+## Small 2-panel figure used in YR4 proposal
+
 #- Blades per shoot
 bps <-
 ggplot(shoots_plant %>% filter(species == "Hw" & week=="w9" & treatment_nutrients=="0g" & bps>0) %>%  # only including plants w/ living Hw
@@ -20,9 +22,6 @@ ggplot(shoots_plant %>% filter(species == "Hw" & week=="w9" & treatment_nutrient
    geom_errorbar(aes(x = treatment_ph, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
                  width=0, linewidth=0.67) +
    scale_color_manual(name = 'pH', values = ph_col_hw) +
-   # labs(title = "Halodule BPS - Recovery (wk 9)",
-   #      x = "pH treatment",
-   #      y = "Blades per shoot") +
    scale_x_discrete(name = NULL, labels = c("amb.", "OA")) +
    scale_y_continuous(name = "Leaves per shoot", limits = c(1.4, 2.5), breaks = seq(1.5, 2.5, by=0.5)) +
    theme_classic() +
@@ -45,9 +44,6 @@ ggplot(morph_plant %>% filter(species=="Hw" & week=="w9" & treatment_nutrients==
    geom_errorbar(aes(x = treatment_ph, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
                  width=0, linewidth=0.67) +
    scale_color_manual(name = 'pH', values = ph_col_hw) +
-   # labs(title = NULL,
-   #      x = NULL,
-   #      y = "Leaf length (cm)") +
    scale_x_discrete(name = NULL, labels = c("amb.", "OA")) +
    scale_y_continuous(name = "Leaf length (cm)", limits = c(14, 25), breaks = seq(15, 25, by=5)) +
    theme_classic() +
@@ -63,9 +59,7 @@ ggplot(morph_plant %>% filter(species=="Hw" & week=="w9" & treatment_nutrients==
 windows(height=2, width=3)
 plot_grid(bl, bps, ncol=2)
 
-
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_bl-bps_forMote.png", height=1.5, width=2.5, units="in", dpi=300)
-
 
 
 #---
@@ -112,7 +106,6 @@ ggplot(shoots_plant %>% filter(species == "Hw" & week=="w9" & treatment_nutrient
 
 
 #- Leaf biomass
-# b <-
 ggplot(biomass_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients=="0g") %>%
                  # convert to mg
                  mutate(shoot_biomass_g = shoot_biomass_g * 1000) %>%
