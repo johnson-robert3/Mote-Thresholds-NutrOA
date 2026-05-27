@@ -33,7 +33,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_shoots_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_shoots_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Hw shoots - acclimation, stress, recovery periods
@@ -58,7 +58,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_shoots_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_shoots_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
@@ -83,7 +83,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_shoots_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_shoots_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Tt shoots - acclimation, stress, recovery periods
@@ -108,7 +108,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_shoots_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_shoots_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
@@ -137,7 +137,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_leaves_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_leaves_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Tt - week 9
@@ -160,7 +160,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_leaves_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_leaves_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 #-- Blades per shoot --#
@@ -186,7 +186,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_bps_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_bps_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Hw bps - acclimation, stress, recovery periods
@@ -211,7 +211,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_bps_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_bps_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
@@ -236,7 +236,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_bps_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_bps_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Tt bps - acclimation, stress, recovery periods
@@ -261,7 +261,7 @@ ggplot(shoots_plant %>%
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_bps_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_bps_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
@@ -339,7 +339,7 @@ ggplot(morph_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients!=
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_BL_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_BL_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Hw BL - acclimation, stress, recovery periods
@@ -362,7 +362,7 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_BL_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_BL_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 # Hw weeks 6 and 9 together (example code for all symbols together)
@@ -413,7 +413,7 @@ ggplot(morph_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!=
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_BL_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_BL_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Tt BL - acclimation, stress, recovery periods
@@ -436,7 +436,7 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_BL_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_BL_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
@@ -509,7 +509,7 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_LSA_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_LSA_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
@@ -553,7 +553,7 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_LSA_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_LSA_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
@@ -612,7 +612,7 @@ ggplot(biomass_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_biomass_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_biomass_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Tt leaf biomass at wk 6, as mean + SE
@@ -667,7 +667,7 @@ ggplot(biomass_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_biomass_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_biomass_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 

@@ -87,7 +87,7 @@ ggplot(epi_plant %>% filter(week=="w6" & species=="Hw" & treatment_nutrients!="p
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_epiphytes_w6.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_epiphytes_w6.png", height=4, width=5, units="in", dpi=300)
 
 
 # Hw - wk 9
@@ -109,7 +109,7 @@ ggplot(epi_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients!="p
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_epiphytes_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_epiphytes_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # Tt - wk 6
@@ -131,7 +131,7 @@ ggplot(epi_plant %>% filter(week=="w6" & species=="Tt" & treatment_nutrients!="p
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_epiphytes_w6.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_epiphytes_w6.png", height=4, width=5, units="in", dpi=300)
 
 
 # Tt - wk 9
@@ -153,7 +153,7 @@ ggplot(epi_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!="p
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/tt_epiphytes_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_epiphytes_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 

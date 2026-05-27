@@ -59,7 +59,7 @@ ggplot(morph_plant %>% filter(species=="Hw" & week=="w9" & treatment_nutrients==
 windows(height=2, width=3)
 plot_grid(bl, bps, ncol=2)
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/hw_bl-bps_forMote.png", height=1.5, width=2.5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_bl-bps_forMote.png", height=1.5, width=2.5, units="in", dpi=300)
 
 
 #---

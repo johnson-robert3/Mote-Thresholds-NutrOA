@@ -39,7 +39,7 @@ ggplot(porewater_plant %>% filter(week == "w6" & treatment_nutrients!="pulsed") 
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/pw_pH_w6.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/pw_pH_w6.png", height=4, width=5, units="in", dpi=300)
 
 
 # week 9
@@ -61,7 +61,7 @@ ggplot(porewater_plant %>% filter(week == "w9" & treatment_nutrients!="pulsed") 
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/pw_pH_w9.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/pw_pH_w9.png", height=4, width=5, units="in", dpi=300)
 
 
 # ph - acclimation, stress, recovery periods
@@ -85,7 +85,7 @@ ggplot(porewater_plant %>% filter(week %in% c('w2', 'w6', 'w9') & treatment_nutr
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/pw_pH_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/pw_pH_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
@@ -149,7 +149,7 @@ ggplot(porewater_plant %>% filter(week %in% c('w2', 'w6', 'w9') & treatment_nutr
    theme_classic() %>%
    fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Seagrass-NutrOA-Thresholds/pw_sulfide_periods.png", height=3, width=8, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/pw_sulfide_periods.png", height=3, width=8, units="in", dpi=300)
 
 
 
