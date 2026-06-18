@@ -97,7 +97,7 @@ hw_mort <- hw_surv %>%
    summarize(across(c(alive_w0:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
    mutate(survive_w2_perc = alive_w2 / alive_w0 * 100,   # percent that survived initial acclimation period
           survive_w6_perc = alive_w6 / alive_w2 * 100,   # percent that survived the experimental period (relative to those living at wk 2)
-          survive_w9_perc = alive_w9 / w2_for_w9 * 100)  # percent that survived to the end (relative to those living at wk 2, not included those harvested at wk 6)
+          survive_w9_perc = alive_w9 / w2_for_w9 * 100)  # percent that survived to the end (relative to those living at wk 2, not including living plants harvested at wk 6)
 
 
 
@@ -172,12 +172,15 @@ tt_mort <- tt_surv %>%
    summarize(across(c(alive_w0:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
    mutate(survive_w2_perc = alive_w2 / alive_w0 * 100,   # percent that survived initial acclimation period
           survive_w6_perc = alive_w6 / alive_w2 * 100,   # percent that survived the experimental period (relative to those living at wk 2)
-          survive_w9_perc = alive_w9 / w2_for_w9 * 100)  # percent that survived to the end (relative to those living at wk 2, not included those harvested at wk 6)
-
+          survive_w9_perc = alive_w9 / w2_for_w9 * 100)  # percent that survived to the end (relative to those living at wk 2, not including living plants harvested at wk 6)
 
 
 
 #-- View the number of living plants at each time point for each species --#
+
+   # not sure this is needed/helpful; treatments didn't start with the same number of plants, so viewing numbers of survivors doesn't
+   # give information about treatment effects.
+   # more useful to use percent mortality data from the _mort dfs above
 
 # Halodule
 hw_surv %>% filter(week=="w2") %>% summarize(across(starts_with("alive"), sum))  # wk 9 sum is inaccurate, b/c includes harvest at wk 6
