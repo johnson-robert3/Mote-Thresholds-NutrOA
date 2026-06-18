@@ -214,6 +214,31 @@ ggplot(shoots_plant %>%
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_bps_periods.png", height=3, width=8, units="in", dpi=300)
 
 
+   # Hw bps - split panels by nutrient treatment instead of sample period
+   ggplot(shoots_plant %>% 
+             filter(species == "Hw" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed" & bps>0) %>%  # only including plants w/ living Hw
+             mutate(treatment_nutrients = factor(treatment_nutrients, levels = c('0g', '2g', '4g', '7g', '10g'))) %>%
+             mutate(week = parse_number(week) %>% as.factor()) %>%
+             summarize(mean = mean(bps, na.rm=TRUE),
+                       se = se(bps),
+                       .by = c(treatment_ph, treatment_nutrients, week))) +
+      geom_line(aes(x = week, y = mean, color = treatment_ph, group = treatment_ph), 
+                position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+      geom_errorbar(aes(x = week, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                    position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+      geom_point(aes(x = week, y = mean, color = treatment_ph), 
+                 size=3.5, shape=19, position = position_dodge(width=0.3)) +
+      scale_color_manual(values = ph_col_hw) +
+      labs(title = "Halodule BPS",
+           x = "Week",
+           y = "Blades per shoot") +
+      facet_wrap(facets = vars(treatment_nutrients), ncol=1) +
+      theme_classic() %>%
+      fig_theme()
+   
+   ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_bps_treatments.png", height=8, width=4, units="in", dpi=300)
+
+
 
 # Tt bps - week 9
 ggplot(shoots_plant %>% 
@@ -262,6 +287,31 @@ ggplot(shoots_plant %>%
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_bps_periods.png", height=3, width=8, units="in", dpi=300)
+
+
+   # Tt bps - split panels by nutrient treatment instead of sample period
+   ggplot(shoots_plant %>% 
+             filter(species == "Tt" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed" & bps>0) %>%  # only including plants w/ living Tt
+             mutate(treatment_nutrients = factor(treatment_nutrients, levels = c('0g', '2g', '4g', '7g', '10g'))) %>%
+             mutate(week = parse_number(week) %>% as.factor()) %>%
+             summarize(mean = mean(bps, na.rm=TRUE),
+                       se = se(bps),
+                       .by = c(treatment_ph, treatment_nutrients, week))) +
+      geom_line(aes(x = week, y = mean, color = treatment_ph, group = treatment_ph), 
+                position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+      geom_errorbar(aes(x = week, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                    position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+      geom_point(aes(x = week, y = mean, color = treatment_ph), 
+                 size=3.5, shape=19, position = position_dodge(width=0.3)) +
+      scale_color_manual(values = ph_col_tt) +
+      labs(title = "Thalassia BPS",
+           x = "Week",
+           y = "Blades per shoot") +
+      facet_wrap(facets = vars(treatment_nutrients), ncol=1) +
+      theme_classic() %>%
+      fig_theme()
+   
+   ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_bps_treatments.png", height=8, width=4, units="in", dpi=300)
 
 
 
@@ -512,6 +562,29 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_LSA_periods.png", height=3, width=8, units="in", dpi=300)
 
 
+   # Hw LSA - split panels by nutrient treatment instead of sample period
+   ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
+             mutate(treatment_nutrients = factor(treatment_nutrients, levels = c('0g', '2g', '4g', '7g', '10g'))) %>%
+             mutate(week = parse_number(week) %>% as.factor()) %>%
+             summarize(mean = mean(tot_leaf_area, na.rm=TRUE),
+                       se = se(tot_leaf_area),
+                       .by = c(treatment_ph, treatment_nutrients, week))) +
+      geom_line(aes(x = week, y = mean, color = treatment_ph, group = treatment_ph), 
+                position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+      geom_errorbar(aes(x = week, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                    position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+      geom_point(aes(x = week, y = mean, color = treatment_ph), 
+                 size=3.5, shape=19, position = position_dodge(width=0.3)) +
+      scale_color_manual(values = ph_col_hw) +
+      labs(title = "Halodule total leaf area",
+           x = "Week",
+           y = "Leaf surface area (cm^2)") +
+      facet_wrap(facets = vars(treatment_nutrients), ncol=1) +
+      theme_classic() %>%
+      fig_theme()
+   
+   ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_LSA_treatments.png", height=8, width=4, units="in", dpi=300)
+
 
 # Tt total leaf area at wk 9, as mean + SE
 ggplot(morph_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!="pulsed") %>%
@@ -555,6 +628,29 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
 
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_LSA_periods.png", height=3, width=8, units="in", dpi=300)
 
+
+   # Tt LSA - split panels by nutrient treatment instead of sample period
+   ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
+             mutate(treatment_nutrients = factor(treatment_nutrients, levels = c('0g', '2g', '4g', '7g', '10g'))) %>%
+             mutate(week = parse_number(week) %>% as.factor()) %>%
+             summarize(mean = mean(tot_leaf_area, na.rm=TRUE),
+                       se = se(tot_leaf_area),
+                       .by = c(treatment_ph, treatment_nutrients, week))) +
+      geom_line(aes(x = week, y = mean, color = treatment_ph, group = treatment_ph), 
+                position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+      geom_errorbar(aes(x = week, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                    position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+      geom_point(aes(x = week, y = mean, color = treatment_ph), 
+                 size=3.5, shape=19, position = position_dodge(width=0.3)) +
+      scale_color_manual(values = ph_col_tt) +
+      labs(title = "Thalassia total leaf area",
+           x = "Week",
+           y = "Leaf surface area (cm^2)") +
+      facet_wrap(facets = vars(treatment_nutrients), ncol=1) +
+      theme_classic() %>%
+      fig_theme()
+   
+   ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_LSA_treatments.png", height=8, width=4, units="in", dpi=300)
 
 
 
