@@ -23,9 +23,9 @@ porewater_plant <- porewater %>%
                  select(sample_id, scint_S_uM, flag_spec = flag, notes_spec = notes)) %>%
    # calculate porewater total dissolved sulfide concentration (units = uM)
    mutate(
-      # total S in vial (concentration times total aqueous volume)
+      # total S in vial (concentration times total aqueous volume) (units = umol)
       scint_S_umol = scint_S_uM * ((h2s_vol_ml + h2s_znac_vol_ml) / 1000),
-      # concentration of S in porewater
+      # concentration of S in porewater (units = uM)
       porewater_S_uM = scint_S_umol / (h2s_vol_ml / 1000)) %>%
    # add treatment and plant info
    left_join(plant_dat %>% select(plant_id, treatment_ph, treatment_nutrients, site)) %>%

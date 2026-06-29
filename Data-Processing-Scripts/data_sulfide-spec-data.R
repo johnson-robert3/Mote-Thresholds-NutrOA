@@ -1,13 +1,18 @@
 #~~~
-# Script to import and process spectrophotometer data for sulfide samples
+# Import and process spectrophotometer data for sulfide samples
 #
+# By: R. Johnson
 #~~~
 
+
+# Data files stored on Box
 setwd("C:/Users/rajohnson6/Box/Projects/Mote Seagrass Thresholds/Mote Data")
 
+# load libraries
 library(tidyverse)
 
-# need to run "data_S-std-curves" script first
+
+###  Need to run "data_S-std-curves" script first
 
 
 #- Functions for processing raw spec data sheets
@@ -17,9 +22,9 @@ check_stds <- function(.dat, .std_curve) {
    
    .dat %>%
       filter(vial %in% c(paste0('L', c(2:40)))) %>%
-      # correct for blank absorbance
+      # correct absorbance of standards by the mean abosorbance of Blanks
       mutate(abs = abs_667 - (.dat %>% filter(sample_id=="Blank") %>% pull(abs_667) %>% mean)) %>%
-      # concentration
+      # calculate measured concentration, expected concentration, and difference between them
       mutate(stdS = calc_S_conc(abs, .std_curve),
              expected = parse_number(sample_id),
              diff = expected - stdS,
@@ -153,12 +158,12 @@ sulf_wk9 <- calc_vial_S(sulf_wk9, raw_sulf_wk9, std_dec25)
 
    # View samples that were maybe too high at 1:1, and were then maybe too low at 1:20 dilutions
    sulf_wk9 %>% filter(flag %in% c("comp")) %>% mutate(scint_S_uM = vial_S_uM * dilution_pre) %>% print(n=Inf)
-      # differences in calculated concentration were 17%, 28%, and 40% different depending on the dilution
-      # need to rerun these 3 samples at a 1:5 pre_dilution (T1-H116-w9, T2-L159-w9, T4-H012-w9)
+      #' differences in calculated concentration were 17%, 28%, and 40% different depending on the dilution
+      #' need to rerun these 3 samples at a 1:5 pre_dilution (T1-H116-w9, T2-L159-w9, T4-H012-w9)
    
    ## probably want to rerun all wk9 samples that had an abs. below 0.10 at a dilution of 1:20; rerun at a dilution of 1:5
    raw_sulf_wk9 %>% filter(dilution_pre == 20 & abs_667 < 0.10 & !(str_detect(sample_id, pattern="dup"))) %>% print(n=Inf)
-      # but don't need to rerun the 3 samples where the original (at 1:1 dilution) was within the curve (notes for these 3 at 1:20 say "disregard...")
+      #' but don't need to rerun the 3 samples where the original (at 1:1 dilution) was within the curve (notes for these 3 at 1:20 say "disregard...")
    
    # sample ID list
    wk9_rerun_ids <- raw_sulf_wk9 %>% 
@@ -189,9 +194,9 @@ sulf_wk9_reruns <- rm_zbsc(raw_sulf_wk9_reruns)
 
 # Sulfide concentration in vials (units = uM)
 sulf_wk9_reruns <- calc_vial_S(sulf_wk9_reruns, raw_sulf_wk9_reruns, std_dec25)
-   # still missing two samples that weren't included in the rerun for some reason...
-      # T2-H151-w9
-      # T2-H159-w9
+   #' still missing two samples that weren't included in the rerun for some reason...
+      #' T2-H151-w9
+      #' T2-H159-w9
 
 
 

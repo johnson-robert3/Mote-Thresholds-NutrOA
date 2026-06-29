@@ -6,7 +6,7 @@
 #~~~
 
 
-# directory
+# Data files stored on Box
 setwd("C:/Users/rajohnson6/Box/Projects/Mote Seagrass Thresholds/Mote Data")
 
 # load libraries
@@ -49,7 +49,7 @@ leaf_counts <- counts_raw %>%
 # Fix some plant ID issues
 leaf_counts <- leaf_counts %>%
    # 7 plant IDs were duplicated between 8/28 and 8/29
-   # keep only the 8/29 data for these plants (Hw data is the same across both dates; Tt plants died on 8/29 for these 7 IDs)
+   # keep only the 8/29 data for these plants (Hw data are the same across both dates; Tt plants died on 8/29 for these 7 IDs)
    filter(!(date == "2025-08-28" & plant_id %in% c(leaf_counts %>% filter(date == "2025-08-29") %>% pull(plant_id)))) %>%
    # plant A018 was removed before the experiment began b/c all seagrass died during acclimation period
    # just omit here b/c the pot was never assigned to treatments
@@ -214,9 +214,9 @@ hobo_t5_raw <- read_csv("HOBO logger data/T5-22182669 2025-10-19 09_47_01 CDT.cs
 
 # Clean, combine, and process
 temp_dat <- bind_rows(hobo_t1_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T1"),
-                     hobo_t2_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T2"),
-                     hobo_t4_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T4"),
-                     hobo_t5_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T5")) %>%
+                      hobo_t2_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T2"),
+                      hobo_t4_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T4"),
+                      hobo_t5_raw %>% janitor::clean_names() %>% select(date_time_edt, temperature_c, light_lux) %>% mutate(table = "T5")) %>%
    drop_na(temperature_c) %>%
    mutate(date_time = mdy_hms(date_time_edt),
           date = date(date_time),

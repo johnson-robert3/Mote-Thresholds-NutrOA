@@ -18,7 +18,7 @@ morph_allblades <- morphometry %>%
                                 .default = 1)) %>%
    # lengthen the df for blade lengths
    pivot_longer(cols = starts_with("length"), names_to = "blade", values_to = "length_cm", values_drop_na=TRUE) %>%
-   # calculate blade area using length and width (this is area for each individual blade) (units = cm^2)
+   # calculate one-sided blade area using length and width (this is area for each individual blade) (units = cm^2)
    mutate(blade_area_cm = length_cm * width_cm)
 
 

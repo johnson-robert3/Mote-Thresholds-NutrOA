@@ -10,7 +10,7 @@
 # Shoot Structure
 #--
 
-#-- Number of shoots --#
+#-- Number of shoots ----
 
 # Hw shoots - week 9
 ggplot(shoots_plant %>% 
@@ -112,7 +112,7 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_shoots
 
 
 
-#-- Number of leaves --#
+#-- Number of leaves ----
 
 # Hw - week 9
 ggplot(shoots_plant %>% 
@@ -163,7 +163,7 @@ ggplot(shoots_plant %>%
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_leaves_w9.png", height=4, width=5, units="in", dpi=300)
 
 
-#-- Blades per shoot --#
+#-- Blades per shoot ----
 
 # Hw bps - week 9
 ggplot(shoots_plant %>% 
@@ -367,7 +367,7 @@ ggplot(shoots_plant %>% filter(species == "Tt" & week=="w9" & treatment_nutrient
 # Leaf Morphometry
 #--
 
-#-- Blade Length --#
+#-- Blade Length ----
 
 # Hw BL - week 9
 windows(height=4, width=5)
@@ -516,8 +516,9 @@ ggplot(morph_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!=
 
 
 
-#-- Leaf Surface Area --#
-# total surface area of all leaves in each pot
+#-- Leaf Surface Area ----
+
+#' total surface area of all leaves in each pot
 
 # Hw total leaf area at wk 9, as mean + SE
 ggplot(morph_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients!="pulsed") %>%
@@ -655,7 +656,7 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_LSA_pe
 
 
 #--
-# Leaf Biomass
+# Shoot Biomass ----
 #-- 
 
 # Hw leaf biomass at wk 6, as mean + SE

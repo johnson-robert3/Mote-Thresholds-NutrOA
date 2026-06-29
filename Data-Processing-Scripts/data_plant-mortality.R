@@ -5,39 +5,44 @@
 #~~~
 
 
-# combine leaf/shoot count data with plant_ID data
-plants <- leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat)
+# 1. Combine leaf/shoot count data with plant_ID data
+plants <- leaf_counts %>% rename(count_notes = notes) %>% 
+   left_join(plant_dat)
 
 
-# list of all plant IDs used in experiment
-w0_ids <- plants %>% pull(plant_id) %>% unique()
+# 2. Lists of plant IDs
+
+# all plant IDs used in experiment
+plant_ids_w0 <- plants %>% pull(plant_id) %>% unique()
 
 # plant IDs that were harvested for genetics at wk6
 harvest_ids <- plant_dat %>% filter(str_detect(removal_notes, "genetics")) %>% pull(plant_id)
 
 
+# 3. Calculate survivorship/mortality of each species at each time point
 
-#-- HALODULE --#
+#-- HALODULE ----
 
-# Plant IDs with living Hw at wk2
+# Create vectors of living plant IDs at each time point
+
+# Plant IDs with living Hw at wk 2
 hw_w2_ids <- plants %>% filter(week == "w2" & Hw_blades > 0) %>% pull(plant_id)
-
-# Hw alive at wk 6
+# Plant IDs with living Hw at wk 6
 hw_w6_ids <- plants %>% filter(week == "w6" & Hw_blades > 0) %>% pull(plant_id)
-
-# Hw alive at wk 9
+# Plant IDs with living Hw at wk 9
 hw_w9_ids <- plants %>% filter(week == "w9" & Hw_blades > 0) %>% pull(plant_id)
 
-# Hw alive at wk 2 that were not harvested for genetics at wk 6 (to calculate survivorship of these at wk 9)
-# however, can't just exclude all the plant IDs that were harvested in wk 6, b/c three of these plants had the Hw die before wk 6,
-# so those 3 plant IDs need to be retained and counted toward the survivorship at wk 9
-# only exclude the genetics IDs that still had living Hw at wk 6 (b/c this wasn't mortality due to the experiment)
-# (it's actually only 2 plant IDs (A002, H051), b/c Hw was already dead at wk 2 in the third (A010))
 
-   # view the plants harvested at wk 6 where the Hw was already dead
+#' Determine which Hw plant IDs were alive at wk 2 that were not harvested for genetics at wk 6 (to calculate survivorship of these at wk 9)
+#'  However, can't just exclude all the plant IDs that were harvested in wk 6; for three of these plants, Hw died before wk 6,
+#'   so those 3 plant IDs need to be retained and counted toward the survivorship at wk 9.
+#'  Only exclude the genetics IDs that still had living Hw when they were harvested at wk 6 (b/c this wasn't mortality due to the experiment).
+#'   - (it's actually only 2 plant IDs (A002, H051), b/c Hw was already dead at wk 2 in the third (A010))
+
+   # view the plants harvested at wk 6 where  Hw was already dead
    plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Hw_blades == 0) %>% View
    
-   # genetic IDs that had living Hw at wk 6
+   # view the plants harvested at wk 6 where HW was still living
    plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Hw_blades > 0) %>% View
 
 # so the final set of plant IDs from wk 2 to be used for calculating survivorship at wk 9 is...
@@ -50,13 +55,13 @@ hw_w2_no_genetics <- plants %>% filter(week == "w2" & Hw_blades > 0) %>%
 
 #- Halodule survivorship over time
 
-# survivorship at wk 6 relative to wk 2
-length(hw_w6_ids) / length(hw_w2_ids) * 100
+   # survivorship at wk 6 relative to wk 2
+   length(hw_w6_ids) / length(hw_w2_ids) * 100
 
-# survivorship at wk 9 relative to wk 2
-length(hw_w9_ids) / length(hw_w2_no_genetics) * 100
+   # survivorship at wk 9 relative to wk 2
+   length(hw_w9_ids) / length(hw_w2_no_genetics) * 100
 
-   # - but these are just total, need to split it by treatments
+   #' - but these are just total, need to split it by treatments
 
 
 # make a df denoting whether a plant ID was alive at time points
@@ -83,9 +88,9 @@ hw_surv %>%
 
    # view plants that are recorded as dead in wk 6 but then alive in wk 9
    hw_surv %>% filter(alive_w6==0 & alive_w9==1) %>% arrange(plant_id, week) %>% View
-      # L006 was accidentally not counted in wk 6 (and missing values are counted as dead in the code above)
-      # L171 had 0 blades in wk 6, and then 1 blade in wk 9; must have been missed in wk 6, or roots survived and a new blade grew by wk 9
-      # - just omit these two for survivorship counts
+      #' L006 was accidentally not counted in wk 6 (and missing values are counted as dead in the code above)
+      #' L171 had 0 blades in wk 6, and then 1 blade in wk 9; must have been missed in wk 6, or roots survived and a new blade grew by wk 9
+      #' - just omit these two for survivorship counts
 
 
 # df of Halodule survivorship
@@ -101,36 +106,37 @@ hw_mort <- hw_surv %>%
 
 
 
-#-- THALASSIA --#
+#-- THALASSIA ----
 
-# Plant IDs with living Thalassia at wk2
+# Create vectors of living plant IDs at each time point
+
+# Plant IDs with living Tt at wk 2
 tt_w2_ids <- plants %>% filter(week == "w2" & Tt_blades > 0) %>% pull(plant_id)
-
-# Tt alive at wk 6
+# Plant IDs with living Tt at wk 6
 tt_w6_ids <- plants %>% filter(week == "w6" & Tt_blades > 0) %>% pull(plant_id)
-
-# Tt alive at wk 9
+# Plant IDs with living Tt at wk 9
 tt_w9_ids <- plants %>% filter(week == "w9" & Tt_blades > 0) %>% pull(plant_id)
 
-# Tt alive at wk 2 that were not harvested for genetics at wk 6 (to calculate survivorship of these at wk 9)
-# however, can't just exclude all the plant IDs that were harvested in wk 6, b/c five of these plants had the Tt die before wk 6,
-# so those 5 plant IDs need to be retained and counted toward the survivorship at wk 9
-# only exclude the genetics IDs that still had living Tt at wk 6 (b/c this wasn't mortality due to the experiment)
 
-   # view the plants harvested at wk 6 where the Tt was already dead
+#' Determine which Tt plant IDs were alive at wk 2 that were not harvested for genetics at wk 6 (to calculate survivorship of these at wk 9)
+#'  However, can't just exclude all the plant IDs that were harvested in wk 6; for five of these plants, Tt died before wk 6,
+#'   so those 5 plant IDs need to be retained and counted toward the survivorship at wk 9.
+#'  Only exclude the genetics IDs that still had living Tt when they were harvested at wk 6 (b/c this wasn't mortality due to the experiment).
+
+   # view the plants harvested at wk 6 where Tt was already dead
    plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Tt_blades == 0) %>% View
    
    plants %>% filter(plant_id %in% harvest_ids) %>% filter(Tt_blades == 0) %>% arrange(plant_id, week) %>% View
-      # L163 was recorded as 0 Tt in wk 2 and wk 3, but then 5 Tt blades in wk 6; leaves fell off but must not have been dead, and then re-grew
+      #' L163 was recorded as 0 Tt in wk 2 and wk 3, but then 5 Tt blades in wk 6; leaves fell off but must not have been dead, and then re-grew
    
-   # genetic IDs that had living Tt at wk 6
+   # view the plants harvested at wk 6 where Tt was still living
    plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Tt_blades > 0) %>% View
    
       # view IDs that are recorded as alive in wk 6, but were "dead" in wk 2
       setdiff(tt_w6_ids, tt_w2_ids)
-      # two plants: L163, H117
-      # both of these plants were recorded as having Tt blades in wk 6, but not in any other weeks
-      # - just omit these two for survivorship counts
+      #' two plants: L163, H117
+      #' both of these plants were recorded as having Tt blades in wk 6, but not in any other weeks
+      #' - just omit these two for survivorship counts
 
 # so the final set of plant IDs from wk 2 to be used for calculating survivorship at wk 9 is...
 tt_w2_no_genetics <- plants %>% filter(week == "w2" & Tt_blades > 0) %>% 
@@ -142,13 +148,13 @@ tt_w2_no_genetics <- plants %>% filter(week == "w2" & Tt_blades > 0) %>%
 
 #- Thalassia survivorship over time
 
-# survivorship at wk 6 relative to wk 2
-length(tt_w6_ids) / length(tt_w2_ids) * 100
+   # survivorship at wk 6 relative to wk 2
+   length(tt_w6_ids) / length(tt_w2_ids) * 100
 
-# survivorship at wk 9 relative to wk 2
-length(tt_w9_ids) / length(tt_w2_no_genetics) * 100
+   # survivorship at wk 9 relative to wk 2
+   length(tt_w9_ids) / length(tt_w2_no_genetics) * 100
 
-   # - but these are just total, need to split it by treatments
+   #' - but these are just total, need to split it by treatments
 
 
 # make a df denoting whether a plant ID was alive at time points
@@ -178,9 +184,9 @@ tt_mort <- tt_surv %>%
 
 #-- View the number of living plants at each time point for each species --#
 
-   # not sure this is needed/helpful; treatments didn't start with the same number of plants, so viewing numbers of survivors doesn't
-   # give information about treatment effects.
-   # more useful to use percent mortality data from the _mort dfs above
+   #' not sure this is needed/helpful; treatments didn't start with the same number of plants, so viewing numbers of survivors doesn't
+   #' give information about treatment effects.
+   #' more useful to use percent mortality data from the _mort dfs above
 
 # Halodule
 hw_surv %>% filter(week=="w2") %>% summarize(across(starts_with("alive"), sum))  # wk 9 sum is inaccurate, b/c includes harvest at wk 6
