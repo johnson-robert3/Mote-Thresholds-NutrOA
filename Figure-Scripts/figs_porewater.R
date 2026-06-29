@@ -128,7 +128,7 @@ ggplot(porewater_trt %>% filter(week == "w9" & treatment_nutrients!="pulsed") %>
         y = "Total dissolved sulfide (uM)")
 
 
-# DS - acclimation, stress, recovery periods
+# Sulfide - acclimation, stress, recovery periods
 ggplot(porewater_plant %>% filter(week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(porewater_S_uM, na.rm=TRUE),
@@ -150,6 +150,31 @@ ggplot(porewater_plant %>% filter(week %in% c('w2', 'w6', 'w9') & treatment_nutr
    fig_theme()
 
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/pw_sulfide_periods.png", height=3, width=8, units="in", dpi=300)
+
+
+   # Sulfide - split panels by nutrient treatment instead of sample period
+   ggplot(porewater_plant %>% filter(week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
+             mutate(treatment_nutrients = factor(treatment_nutrients, levels = c('0g', '2g', '4g', '7g', '10g'))) %>%
+             mutate(week = parse_number(week) %>% as.factor()) %>%
+             summarize(mean = mean(porewater_S_uM, na.rm=TRUE),
+                       se = se(porewater_S_uM),
+                       .by = c(treatment_ph, treatment_nutrients, week))) +
+      #
+      geom_line(aes(x = week, y = mean, color = treatment_ph, group = treatment_ph), 
+                position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+      geom_errorbar(aes(x = week, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                    position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+      geom_point(aes(x = week, y = mean, color = treatment_ph), 
+                 size=3.5, shape=19, position = position_dodge(width=0.3)) +
+      scale_color_manual(name = 'pH', values = ph_col_env) +
+      labs(title = "Porewater sulfide",
+           x = "Week",
+           y = "Total dissolved sulfide (uM)") +
+      facet_wrap(facets = vars(treatment_nutrients), ncol=1) +
+      theme_classic() %>%
+      fig_theme()
+   
+   ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/pw_sulfide_treatments.png", height=8, width=4, units="in", dpi=300)
 
 
 
