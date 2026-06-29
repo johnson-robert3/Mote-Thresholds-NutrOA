@@ -192,8 +192,11 @@ np_mass <- np_mass_raw %>%
 # Process
 np_mass <- np_mass %>%
    rename(pull_date = date) %>%
-   mutate(burial_date = as_date("2025-08-29")) %>%
-   relocate(treatment_nutrients, burial_date, pull_date, .after = table) %>%
+   mutate(burial_date = as_date("2025-08-29"),
+          # add pH treatment based on table
+          treatment_ph = case_when(table %in% c('T1', 'T2') ~ "OA",
+                                   table %in% c('T4', 'T5') ~ "ambient")) %>%
+   relocate(treatment_ph, treatment_nutrients, burial_date, pull_date, .after = table) %>%
    # calculations
    mutate(days_buried = as.numeric(pull_date - burial_date),       # number of days that nutr packs were buried
           mass_loss_g = starting_mass_g - final_mass_g,            # mass of nutrients lost during burial period
