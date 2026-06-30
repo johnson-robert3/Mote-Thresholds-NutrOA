@@ -37,7 +37,7 @@ porewater_plant <- porewater %>%
 # Calculate mean and SE for each treatment over time
 porewater_trt <- porewater_plant %>%
    # treatment mean and SE
-   summarize(across(c(pH, porewater_S_uM), list(mean = ~mean(., na.rm=TRUE), se = se), .names = "{.fn}_{.col}"), 
+   summarize(across(c(pH, porewater_S_uM), list(mean = ~mean(., na.rm=TRUE), sd = ~sd(., na.rm=TRUE), se = se), .names = "{.fn}_{.col}"), 
              .by = c(treatment_ph, treatment_nutrients, week))
 
 

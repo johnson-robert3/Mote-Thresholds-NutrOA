@@ -45,7 +45,7 @@ morph_plant <- morph_allblades %>%
 # Calculate mean and SE for each treatment over time
 morph_trt <- morph_plant %>%
    # mean/SE by treatment
-   summarize(across(c(blade_length, blade_width, tot_leaf_area), list(mean=mean, se=se), .names = "{.fn}_{.col}"), 
+   summarize(across(c(blade_length, blade_width, tot_leaf_area), list(mean = ~mean(., na.rm=TRUE), sd = ~sd(., na.rm=TRUE), se = se), .names = "{.fn}_{.col}"), 
              n=n(),
              .by=c(species, treatment_ph, treatment_nutrients, week))
 
@@ -133,7 +133,7 @@ shoots_trt <- shoots_plant %>%
    # replace 0's with NA, so that missing plants are excluded from mean values
    mutate(across(c(shoot_count, leaf_count, bps), ~replace_values(., 0 ~ NA_real_))) %>% 
    # treatment means
-   summarize(across(c(shoot_count, leaf_count, bps), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), 
+   summarize(across(c(shoot_count, leaf_count, bps), list(mean = ~mean(., na.rm=TRUE), sd = ~sd(., na.rm=TRUE), se = se), .names="{.fn}_{.col}"), 
              n=n(),
              .by=c(treatment_ph, treatment_nutrients, week, species)) 
 
@@ -161,6 +161,7 @@ biomass_plant <- shoot_biomass %>%
 biomass_trt <- biomass_plant %>%
    # treatment mean and SE
    summarize(mean_shoot_biomass = mean(shoot_biomass_g, na.rm=TRUE),
+             sd_shoot_biomass = sd(shoot_biomass_g, na.rm=TRUE), 
              se_shoot_biomass = se(shoot_biomass_g),
              n = n(),
              .by = c(species, treatment_ph, treatment_nutrients, week))
