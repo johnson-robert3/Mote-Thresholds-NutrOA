@@ -73,6 +73,36 @@ shoots_trt_means <- tmp %>%
 
 
 
+#' another alternative method; no need to use nest() and map(), can just lengthen and then compute on the df, grouping by the parameter variable
+#' need to make dfs for summary stats and for effect sizes separately this way, though
+
+# summary stats
+tmp.s <- shoots_plant %>%
+   select(plant_id, treatment_ph, treatment_nutrients, week, species, shoot_count, leaf_count, bps) %>%
+   filter_out(week %in% c('w3', 'w8')) %>%
+   pivot_longer(cols = where(is.numeric), names_to = 'parameter', values_to = 'result') %>%
+   group_by(species, treatment_ph, treatment_nutrients, week, parameter) %>% 
+   summarize(mean = mean(result, na.rm=TRUE),
+             sd = sd(result, na.rm=TRUE),
+             se = se(result),
+             n = n(),
+             .groups = 'drop')
+
+# effect sizes
+tmp.e <- tmp.s %>% 
+   group_by(species, treatment_nutrients, week, parameter) %>%
+   summarize(
+      # mean difference
+      mean_diff = mean[treatment_ph == "OA"] - mean[treatment_ph == "ambient"],
+      # hedges' g
+      hedges_g = mean_diff / sqrt(((sd[treatment_ph == "OA"])^2 + (sd[treatment_ph == "ambient"])^2) / 2),
+      # log ratio
+      log_ratio = log(mean[treatment_ph == "OA"]) - log(mean[treatment_ph == "ambient"]),
+      # groups
+      .groups = 'drop')
+
+
+
 
 
 # 2. figures
