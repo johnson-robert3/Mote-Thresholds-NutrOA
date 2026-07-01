@@ -7,25 +7,6 @@
 
 # set up data
 
-#' I think I need to do these one variable at a time (may be able to to all together, but df will get very wide...)
-
-# test with BPS
-tmp <- shoots_trt %>%
-   select(treatment_ph, treatment_nutrients, week, species, contains('bps'), n) %>%
-   #
-   # filter(week == "w9", species == "Hw") %>%
-   group_by(species, week, treatment_nutrients) %>%
-   summarize(
-      # mean difference
-      mean_diff = mean_bps[treatment_ph == "OA"] - mean_bps[treatment_ph == "ambient"],
-      # hedges' g
-      hedges_g = mean_diff / sqrt(((sd_bps[treatment_ph == "OA"])^2 + (sd_bps[treatment_ph == "ambient"])^2) / 2),
-      # log ratio
-      log_ratio = log(mean_bps[treatment_ph == "OA"]) - log(mean_bps[treatment_ph == "ambient"]),
-      # groups
-      .groups = 'drop')
-
-
 
 # alternative method to calculate effect size stats on multiple variables at once
 
