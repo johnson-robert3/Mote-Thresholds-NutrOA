@@ -35,8 +35,9 @@ tmp.e <- bind_rows(shoots_trt, morph_trt, biomass_trt) %>%  # can combine all 3 
 
 # 2. figures
 
-ggplot(tmp %>% mutate(treatment_nutrients = factor(treatment_nutrients, levels = c('pulsed', '0g', '2g', '4g', '7g', '10g'))) %>%
-          filter(treatment_nutrients!='pulsed')) +
+ggplot(tmp.e %>% mutate(treatment_nutrients = factor(treatment_nutrients, levels = c('pulsed', '0g', '2g', '4g', '7g', '10g'))) %>%
+          filter(treatment_nutrients!='pulsed') %>%
+          filter(parameter == 'bps')) +
    # mean diff (black)
    geom_point(aes(x = treatment_nutrients, y = mean_diff), size = 2, color = "black") +
    geom_line(aes(x = treatment_nutrients, y = mean_diff, group=1), color = "black") +
