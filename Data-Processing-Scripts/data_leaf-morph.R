@@ -13,9 +13,9 @@
 # Calculate Tt blade area for each plant ID (pot) at each time point
 morph_allblades <- morphometry %>%
    # label shoot number to account for times with a second Tt shoot
-   mutate(shoot_num = case_when(notes %in% c("second shoot") ~ 2,
-                                notes %in% c("third shoot") ~ 3,
-                                .default = 1)) %>%
+   mutate(shoot_id = case_when(notes %in% c("second shoot") ~ 2,
+                               notes %in% c("third shoot") ~ 3,
+                               .default = 1)) %>%
    # lengthen the df for blade lengths
    pivot_longer(cols = starts_with("length"), names_to = "blade", values_to = "length_cm", values_drop_na=TRUE) %>%
    # calculate one-sided blade area using length and width (this is area for each individual blade) (units = cm^2)
@@ -25,21 +25,17 @@ morph_allblades <- morphometry %>%
 # Calculate mean values (and total leaf surface area) for each plant ID (pot)
 morph_plant <- morph_allblades %>%
    # mean values for each shoot (keeps shoots separate when there's more than one Tt shoot) 
-   summarize(blade_length = mean(length_cm, na.rm=TRUE),     # mean blade length for each shoot (units = cm)
-             blade_width = mean(width_cm, na.rm=TRUE),       # mean blade width for each shoot (units = cm)
-             # blade_area = mean(blade_area_cm, na.rm=TRUE),   # mean individual blade area for each shoot (units = cm^2)
-             # BPS = n(),                                      # blades per shoot based on number of blade_length measurements (DO NOT USE as actual blades-per-shoot data; use the tt_bps or hw_bps from the shoot structure df below for real blades-per-shoot data)  
-             tot_leaf_area = sum(blade_area_cm, na.rm=TRUE), # total leaf surface area (one-sided) for each shoot (summing blade area for all blades on the shoot) (units = cm^2)
-             .by = c(plant_id, week, species, shoot_num)) %>%
+   summarize(blade_length = mean(length_cm, na.rm=TRUE),      # mean blade length for each shoot (units = cm)
+             blade_width = mean(width_cm, na.rm=TRUE),        # mean blade width for each shoot (units = cm)
+             tot_leaf_area = sum(blade_area_cm, na.rm=TRUE),  # total leaf surface area (one-sided) for each shoot (summing blade area for all blades on the shoot) (units = cm^2)
+             .by = c(plant_id, week, species, shoot_id)) %>%
    # values for each pot: means or totals (across multiple Tt shoots) (Hw values should remain the same; morph was only measured on 1 Hw shoot per pot)
-   summarize(#num_shoots = max(shoot_num),        # number of shoots in the pot (only applicable to Tt) (DO NOT USE - use tt_shoots from shoot structure df for real shoot count data)
-             # num_blades = sum(BPS),              # total number of blades in the pot (only applicable to Tt) (DO NOT USE - use tt_blades from shoot structure df for real blade count data)
-             across(c(blade_length, blade_width), ~mean(.)),   # mean blade length and width in the pot
-             tot_leaf_area = sum(tot_leaf_area), # total leaf surface area (one-sided) in the pot
+   summarize(blade_length = mean(blade_length, na.rm=TRUE),   # mean blade length across all shoots in pot
+             blade_width = mean(blade_width, na.rm=TRUE),     # mean blade width across all shoots in pot
+             tot_leaf_area = sum(tot_leaf_area),              # total leaf surface area (one-sided) in the pot
              .by = c(plant_id, week, species)) %>%
    # add treatment and plant info
    left_join(plant_dat %>% select(plant_id, treatment_ph, treatment_nutrients, site))
-
 
 
 # Calculate mean and SE for each treatment over time
