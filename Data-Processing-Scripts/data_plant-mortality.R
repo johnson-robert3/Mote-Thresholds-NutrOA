@@ -21,6 +21,13 @@ harvest_ids <- plant_dat %>% filter(str_detect(removal_notes, "genetics")) %>% p
 
 # 3. Calculate survivorship/mortality of each species at each time point
 
+   #' There is additional mortality data for weeks 3 and 8 within the 'leaf_counts' dataset if ever desired. 
+   #' In week 3, morphometry was measured on a subset of living plant IDs. In both weeks 3 and 8, all plant ID's were checked for mortality.
+   #' If either species in a pot was dead/missing, its shoot/leaf count was recorded as '0', and if the other species was still alive, its 
+   #'  its shoot/leaf count was left blank (NA). If both species for a plant ID were still alive, nothing was recorded, and that plant ID will
+   #'  not have a row in the 'leaf_count' dataset for that week (except for the plants in week 3 that were measured for morphometry). 
+
+
 #-- HALODULE ----
 
 # Create vectors of living plant IDs at each time point
