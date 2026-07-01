@@ -34,11 +34,13 @@ tmp <- shoots_trt %>%
 
 tmp <- shoots_plant %>%
    select(plant_id, treatment_ph, treatment_nutrients, week, species, shoot_count, leaf_count, bps) %>%
+   # not correct to just fully omit w3
    filter_out(week %in% c('w3', 'w8')) %>%
    pivot_longer(cols = where(is.numeric), 
                 names_to = 'parameter',
                 values_to = 'result') %>%
    nest(.by = parameter) %>%
+   # have not yet removed dead/missing plants; shouldn't be included in summary stats
    mutate(summary_stats = map(data, 
                               ~{.x %>%
                                     group_by(species, treatment_ph, treatment_nutrients, week) %>% 
@@ -76,20 +78,13 @@ shoots_trt_means <- tmp %>%
 #' another alternative method; no need to use nest() and map(), can just lengthen and then compute on the df, grouping by the parameter variable
 #' need to make dfs for summary stats and for effect sizes separately this way, though
 
+
 # summary stats
-tmp.s <- shoots_plant %>%
-   select(plant_id, treatment_ph, treatment_nutrients, week, species, shoot_count, leaf_count, bps) %>%
-   filter_out(week %in% c('w3', 'w8')) %>%
-   pivot_longer(cols = where(is.numeric), names_to = 'parameter', values_to = 'result') %>%
-   group_by(species, treatment_ph, treatment_nutrients, week, parameter) %>% 
-   summarize(mean = mean(result, na.rm=TRUE),
-             sd = sd(result, na.rm=TRUE),
-             se = se(result),
-             n = n(),
-             .groups = 'drop')
+#' this way is now done correctly with a lengthened dataset directly for the 'shoots_trt' df
+
 
 # effect sizes
-tmp.e <- tmp.s %>% 
+tmp.e <- bind_rows(shoots_trt, morph_trt, biomass_trt) %>%  # can combine all 3 struc. trt dfs, b/c they are same format now that they're lengthened
    group_by(species, treatment_nutrients, week, parameter) %>%
    summarize(
       # mean difference
