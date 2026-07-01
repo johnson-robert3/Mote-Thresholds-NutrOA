@@ -60,6 +60,14 @@ shoots_all <- leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_da
    filter_out(plant_id %in% c("L006", "L171", "L163", "H117"))
 
 
+# Remove all rows that just record plant mortality (presence/absence) and don't include shoot/leaf counts
+#' Week 8 is only presence/absence data
+#' Week 3 has some shoot/leaf count data, and some presence/absence data
+#' Don't include these records of presence/absence in the shoot structure datasets
+shoots_all <- shoots_all %>%
+   filter_out(if_any(c(Tt_blades, Hw_shoots, Hw_blades), is.na))
+
+
 # Add a variable for Thalassia shoot count (this accounts for times when a second (or third) Tt shoot was recorded in the notes column)
 shoots_all <- shoots_all %>%
    # number of Tt shoots within each pot
