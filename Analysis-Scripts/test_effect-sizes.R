@@ -22,13 +22,20 @@ tmp.e <- bind_rows(shoots_trt, morph_trt, biomass_trt) %>%  # can combine all 3 
    summarize(
       # mean difference
       mean_diff = mean[treatment_ph == "OA"] - mean[treatment_ph == "ambient"],
+      # pooled SD ( sqrt( ((n-1)(sd^2) + (n-1)(sd^2)) / (n + n -2)) )
+      SD_pooled = sqrt((((n[treatment_ph=="OA"]-1)*(sd[treatment_ph=="OA"]^2)) + ((n[treatment_ph=="ambient"]-1)*(sd[treatment_ph=="ambient"]^2))) / (n[treatment_ph=="OA"] + n[treatment_ph=="ambient"] - 2)),
+      # Cohen's d
+      cohens_d = mean_diff / SD_pooled,
+      # J (small sample-size correction
+      J = 1 - (3 / (4 * (n[treatment_ph=="OA"] + n[treatment_ph=="ambient"] - 2) - 1)),
       # hedges' g
-      hedges_g = mean_diff / sqrt(((sd[treatment_ph == "OA"])^2 + (sd[treatment_ph == "ambient"])^2) / 2),
+      hedges_g = cohens_d * J,
       # log ratio
       log_ratio = log(mean[treatment_ph == "OA"]) - log(mean[treatment_ph == "ambient"]),
       # groups
-      .groups = 'drop')
-
+      .groups = 'drop') %>%
+   # remove temporary metrics
+   select(-SD_pooled, -J)
 
 
 
