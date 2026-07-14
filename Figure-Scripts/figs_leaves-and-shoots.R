@@ -768,5 +768,81 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_biomas
 
 
 
+#-- For BioOce 2026 proposal - Week 6 biomass, Ambient pH only
+
+# Hw 
+ggplot(biomass_plant %>% filter(week=="w6" & species=="Hw" & treatment_nutrients!="pulsed" & treatment_ph=='ambient') %>%
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.numeric(),
+                 # convert to mg
+                 shoot_biomass_g = shoot_biomass_g * 1000) %>%
+          summarize(mean = mean(shoot_biomass_g, na.rm=TRUE),
+                    se = se(shoot_biomass_g),
+                    .by = c(treatment_ph, treatment_nutrients))) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   
+   geom_smooth(aes(x = treatment_nutrients, y = mean, color = treatment_ph), se=TRUE, span=2) +
+   
+   scale_color_manual(values = ph_col_hw) +
+   labs(title = "Halodule shoot biomass - Stress (wk 6)",
+        x = "Nutrient treatment",
+        y = "Shoot biomass (mg DM)") +
+   theme_classic() %>%
+   fig_theme()
+
+
+# Tt 
+ggplot(biomass_plant %>% filter(week=="w6" & species=="Tt" & treatment_nutrients!="pulsed" & treatment_ph=='ambient') %>%
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.numeric(),
+                 # convert to mg
+                 shoot_biomass_g = shoot_biomass_g * 1000) %>%
+          summarize(mean = mean(shoot_biomass_g, na.rm=TRUE),
+                    se = se(shoot_biomass_g),
+                    .by = c(treatment_ph, treatment_nutrients))) +
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph),
+             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   
+   # geom_smooth(aes(x = treatment_nutrients, y = mean, color = treatment_ph), se=TRUE, span=2) +
+   
+   scale_color_manual(values = ph_col_tt) +
+   labs(title = "Thalassia shoot biomass - Stress (wk 6)",
+        x = "Nutrient treatment",
+        y = "Shoot biomass (mg DM)") +
+   theme_classic() %>%
+   fig_theme()
+
+
+
+# both
+ggplot(biomass_plant %>% filter(week=="w6" & treatment_nutrients!="pulsed" & treatment_ph=='ambient') %>%
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.numeric(),
+                 # convert to mg
+                 shoot_biomass_g = shoot_biomass_g * 1000) %>%
+          summarize(mean = mean(shoot_biomass_g, na.rm=TRUE),
+                    se = se(shoot_biomass_g),
+                    .by = c(treatment_ph, treatment_nutrients, species))) +
+   geom_line(aes(x = treatment_nutrients, y = mean, color = species, group = species),
+             linewidth=0.75, alpha=0.4) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se), 
+                 width=0, linewidth=0.67, color="gray60") +
+   geom_point(aes(x = treatment_nutrients, y = mean, color = species), 
+              size=3.5, shape=19) +
+   
+   # geom_smooth(aes(x = treatment_nutrients, y = mean, color = treatment_ph), se=TRUE, span=2) +
+   
+   scale_color_manual(values = c('Hw' = "#4988C4", 'Tt' = "#00B7B5")) +
+   labs(#title = "Shoot biomass - Stress (wk 6)",
+        x = "Nutrient amendment (g)",
+        y = "Shoot biomass (mg)") +
+   theme_classic() +
+   facet_wrap(facets = vars(species), scales = "free_y") #%>%
+   # fig_theme()
+
 
 
