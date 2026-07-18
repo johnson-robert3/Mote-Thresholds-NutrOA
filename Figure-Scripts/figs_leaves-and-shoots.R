@@ -820,29 +820,39 @@ ggplot(biomass_plant %>% filter(week=="w6" & species=="Tt" & treatment_nutrients
 
 
 # both
+windows(height=2, width=3)
 ggplot(biomass_plant %>% filter(week=="w6" & treatment_nutrients!="pulsed" & treatment_ph=='ambient') %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.numeric(),
                  # convert to mg
-                 shoot_biomass_g = shoot_biomass_g * 1000) %>%
+                 shoot_biomass_g = shoot_biomass_g * 1000,
+                 species = species %>% replace_values("Hw" ~ "Halodule", "Tt" ~ "Thalassia")) %>%
           summarize(mean = mean(shoot_biomass_g, na.rm=TRUE),
                     se = se(shoot_biomass_g),
                     .by = c(treatment_ph, treatment_nutrients, species))) +
-   geom_line(aes(x = treatment_nutrients, y = mean, color = species, group = species),
-             linewidth=0.75, alpha=0.4) +
-   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se), 
-                 width=0, linewidth=0.67, color="gray60") +
+   geom_line(aes(x = treatment_nutrients, y = mean, group = species),
+             linewidth=0.75, alpha=0.4, color="gray40") +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = species), 
+                 width=0, linewidth=0.67) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = species), 
-              size=3.5, shape=19) +
+              size=3, shape=19) +
    
    # geom_smooth(aes(x = treatment_nutrients, y = mean, color = treatment_ph), se=TRUE, span=2) +
    
-   scale_color_manual(values = c('Hw' = "#4988C4", 'Tt' = "#00B7B5")) +
+   scale_color_manual(values = c('Halodule' = "#4988C4", 'Thalassia' = "#00B7B5")) +
+   scale_x_continuous(breaks = c(0, 2, 4, 7, 10), limits = c(-0.5, 10.5)) +
    labs(#title = "Shoot biomass - Stress (wk 6)",
         x = "Nutrient amendment (g)",
-        y = "Shoot biomass (mg)") +
+        y = "Shoot mass (mg)") +
    theme_classic() +
+   theme(legend.position = "none",
+         axis.text = element_text(color='black', size=9),
+         axis.title = element_text(color='black', size=10),
+         axis.title.x = element_text(margin = margin(t=3, 'line')),
+         axis.title.y = element_text(margin = margin(r=4, 'line'))) +
    facet_wrap(facets = vars(species), scales = "free_y") #%>%
    # fig_theme()
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/NSF_w6_biomass.png", height=4, width=5, units="in", dpi=300)
 
 
 
