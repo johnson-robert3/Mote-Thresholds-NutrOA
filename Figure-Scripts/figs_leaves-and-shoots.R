@@ -852,7 +852,7 @@ ggplot(biomass_plant %>% filter(week=="w6" & treatment_nutrients!="pulsed" & tre
    facet_wrap(facets = vars(species), scales = "free_y") #%>%
    # fig_theme()
 
-ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/NSF_w6_biomass.png", height=4, width=5, units="in", dpi=300)
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/NSF_w6_biomass.png", height=2, width=3, units="in", dpi=300)
 
 
 
