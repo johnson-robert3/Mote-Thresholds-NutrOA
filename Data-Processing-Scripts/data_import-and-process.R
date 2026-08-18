@@ -102,17 +102,52 @@ shoot_biomass <- shoot_biomass_raw %>%
 
 
 #--
-# Rhizome Biomass
+# Rhizomes
 #--
 
 # Raw data
 rhizome_biomass_raw <- read_csv("MSI25_experiment_rhizome_biomass.csv")
+rhizome_carbs_raw <- read_csv("Rhizome Carbohydrates/MSI25_experiment_rhizome_carbohydrates.csv")
+rhizome_carb_ids <- read_csv("Rhizome Carbohydrates/MSI25 - Vial IDs for Homogenized Seagrass Rhizome Samples.csv")
 
 # Initial cleaning
 rhiz_biomass <- rhizome_biomass_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
+
+rhiz_carbs <- rhizome_carbs_raw %>%
+   filter_out(str_detect(lab_sample_num, pattern="dup")) %>%  #' analytical dupes look good
+   select(-lab_sample_num) %>%
+   rename(vial_number = client_vial_num)
+
+# Data Processing
+rhiz_biomass <- rhiz_biomass %>%
+   # calculate sample dry mass
+   mutate(mass_g = sample_dish_mass_g - dish_mass_g) %>%
+   select(-contains("dish"), -notes)
+
+rhiz_carbs <- full_join(rhizome_carb_ids %>% select(vial_number, vial_id, sample_id, sample_notes = notes),
+                        rhiz_carbs %>% rename(analysis_notes = notes), 
+                        by = "vial_number") %>%
+   select(-vial_number) %>%
+   # remove meadow collection site samples
+   filter_out(str_detect(sample_id, pattern="-PIS-")) %>%
+   # split sample_id column for joining
+   separate_wider_delim(sample_id, delim="-", names = c("table", "plant_id", "week")) %>%
+   select(-vial_id)
+
+# lengthen carb df and add flags
+rhiz_carbs <- rhiz_carbs %>%
+   rename(totalglucose_percent = total_glucose_percent) %>%
+   pivot_longer(cols = contains("percent"), names_to = c("analyte", "units"), names_sep = "_", values_to = "result") %>%
+   # add data flag for samples below detection limit
+   mutate(data_flag = case_when(str_detect(result, pattern="<") ~ "DL",
+                                .default = NA_character_)) %>%
+   # replace flagged samples with half the DL 
+   mutate(result = str_remove(result, pattern="<"),
+          result = as.numeric(result),
+          result = replace_when(result, data_flag == "DL" ~ result / 2))
 
 
 #--
@@ -226,6 +261,45 @@ temp_dat <- bind_rows(hobo_t1_raw %>% janitor::clean_names() %>% select(date_tim
           time = format(date_time, format="%H:%M:%S")) %>%
    select(-date_time_edt) %>%
    relocate(temperature_c, light_lux, .after = time)
+
+
+
+#--
+# Meadow Collection Sites
+#--
+
+#- Seagrass Cover -#
+meadow_cover_raw <- read_csv("MSI25_meadow_seagrass_cover.csv")
+
+
+#- Leaf Morphometry -#
+meadow_leaf_morph_raw <- read_csv("MSI25_meadow_leaf_morphometry.csv")
+
+
+#- Leaf biomass -#
+meadow_leaf_biomass_raw <- read_csv("MSI25_meadow_leaf_biomass.csv")
+
+
+#- Rhizomes -#
+meadow_rhiz_biomass_raw <- read_csv("MSI25_meadow_rhizome_biomass.csv")
+
+meadow_rhiz_carbs <- rhizome_carbs_raw %>%
+   filter_out(str_detect(lab_sample_num, pattern="dup")) %>%  #' analytical dupes look good
+   select(-lab_sample_num) %>%
+   rename(vial_number = client_vial_num, analysis_notes = notes) %>%
+   # add vial info
+   full_join(rhizome_carb_ids %>% select(vial_number, vial_id, sample_id, sample_notes = notes), by = "vial_number") %>%
+   select(-vial_number) %>%
+   relocate(vial_id, sample_id) %>%
+   # keep only meadow collection site samples
+   filter(str_detect(sample_id, pattern="-PIS-")) %>%
+   filter_out(sample_notes == "sample not analyzed") %>%
+   select(-contains("notes"))
+
+
+#- Porewater -#
+meadow_porewater_raw <- read_csv("MSI25_meadow_porewater_samples.csv")
+
 
 
 
