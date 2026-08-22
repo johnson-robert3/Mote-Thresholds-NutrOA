@@ -52,14 +52,20 @@ summary(lm(conc_uM ~ abs_corr, data = std_dec25))  # R2 = 0.9965
 # Equation for concentration - absorbance relationship
 #~~~
 
-# lm(conc_uM ~ abs_df_corr, data = std_curve) %>% coef()
+# lm(abs_df_corr ~ conc_uM, data = std_curve) %>% coef()
 
 calc_S_conc <- function(.abs, .std_curve) {
    
-   intercept = coef(lm(conc_uM ~ abs_corr, data = .std_curve))[[1]]
-   slope = coef(lm(conc_uM ~ abs_corr, data = .std_curve))[[2]]
+   # intercept = coef(lm(conc_uM ~ abs_corr, data = .std_curve))[[1]]
+   # slope = coef(lm(conc_uM ~ abs_corr, data = .std_curve))[[2]]
+   # 
+   # concentration = (.abs * slope) + intercept
    
-   concentration = (.abs * slope) + intercept
+   intercept = coef(lm(abs_corr ~ conc_uM, data = .std_curve))[[1]]
+   slope = coef(lm(abs_corr ~ conc_uM, data = .std_curve))[[2]]
+   
+   concentration = (.abs - intercept) / slope
+   
    
    return(concentration)
 }
