@@ -4,7 +4,7 @@
 #~~
 
 
-#' total non-structural carbohydrates [TNC] = total_glucose + sucrose + fructose
+#' TNC, total non-structural carbohydrates = total_glucose + sucrose + fructose
 #' starch = (total_glucose - glucose) * 0.9
 #' soluble carbohydrates = glucose + sucrose + fructose
 
@@ -34,7 +34,7 @@ carbs <- carbs %>%
    bind_rows(carbs %>% 
                 filter(analyte %in% c('glucose', 'sucrose', 'fructose')) %>%
                 pivot_wider(id_cols = c(sample_id, units), names_from = 'analyte', values_from = 'result') %>%
-                mutate(soluble_carbs = glucose + sucrose + fructose) %>%
+                mutate(soluble_carbs = glucose + sucrose + fructose) %>%  # soluble carbohydrates
                 select(sample_id, units, soluble_carbs) %>%
                 pivot_longer(cols = soluble_carbs, names_to = "analyte", values_to = "result")) %>%
    mutate(analyte = replace(analyte, analyte=="totalglucose", "total_glucose"))
