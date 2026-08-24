@@ -28,6 +28,12 @@ To evaluate survivorship (for each species individually):
    a. For survivorship at 9 wks, need to account for the plants that were harvested for genetic analysis at 6 wks (n=38 plants; 19 Ambient and 19 OA). 
       These plants are missing at 9 wks, but this is not mortality due to the experiment. Calculate survivor proportion based on the number of plants 
       that were alive at 2 wks minus those plants that were harvested at 6 wks.
+      
+3. To evaluate differences between treatments at specific time points, use a GLM with a binomial distribution, using binomial data to designate each plant
+   as alive or dead (1 vs 0). Calculating percent survival (or mortality) results in a single value for each treatment, which can't be used for statistical
+   comparisons. Use the 'hw_surv' and 'tt_surv' dfs, which already have this binomial data (alive_w0:alive_w9).
+   a. Treatments didn't all start with the same number of plants though; think about how to address this in the GLM. Just comparing the total numbers of living
+      plants at a given time point won't be accurate if the treatments didn't start with the same number of plants. 
 
 
 ### Morphometry
@@ -81,7 +87,7 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
 
 ### Porewater
 
-- [ ] Calculate H2S concentration from sulfide and pH values
+- [x] Calculate H2S concentration from sulfide and pH values
 - [x] Calculate treatment means (and SE) at each time point for sulfide, H2S, and pH
 
 
@@ -90,14 +96,15 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
 - [ ] Survivorship curves for both species
    - [ ] Over time, w/ lines for each treatment
    - [x] Comparing treatments, w/ lines for wk 6 and wk 9
-- [ ] Morphometry (blade length) over time for both species
+- [ ] Morphometry (blade length, leaf surface area) over time for both species
    - [ ] Can get some wk 0 data/info from the 'meadow' datasets (leaf morph, leaf biomass)
 - [ ] Shoot structure (total number of leaves) over time for both species
 - [x] Morphometry between treatments at experiment end (wk 9) for both species
    - [x] Blade length
    - [x] Blade area
    - [x] Total leaf surface area
-- [ ] Blade structure over time for both species
+- [ ] Blade structure (bps) over time for both species
+   - [ ] Can get some wk 0 data/info from the 'meadow' datasets (bps)
 - [x] Blade structure between treatments at experiment end (wk 9) for both species
    - [x] Number of shoots
    - [x] Number of blades
@@ -107,8 +114,8 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
 - [ ] pH
    - [ ] pH time-series in tables
    - [x] Comparing porewater pH between treatments at wks 2, 6, and 9
-- [ ] Porewater sulfide
-   - [ ] Sulfide over time, w/ lines for each treatment
+- [x] Porewater sulfide
+   - [x] Sulfide over time, w/ lines for each treatment
    - [x] Comparing total sulfide between treatments at wks 2, 6, and 9
 
 
