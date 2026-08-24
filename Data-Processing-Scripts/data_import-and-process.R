@@ -244,6 +244,20 @@ temp_dat <- bind_rows(hobo_t1_raw %>% janitor::clean_names() %>% select(date_tim
    relocate(temperature_c, light_lux, .after = time)
 
 
+#--
+# Carb Chem data from CAOS
+#--
+
+# Raw data
+caos_chem_raw <- read_csv("CAOS_carb_chem.csv")
+
+# Initial cleaning
+caos_chem <- caos_chem_raw %>%
+   mutate(treatment = case_when(tank == "HT1W" ~ "ambient",
+                                tank == "HT2W" ~ "OA",
+                                tank == "Nearshore" ~ NA_character_)) %>%
+   rename(treatment_ph = treatment)
+
 
 #--
 # Data from Collection Site Meadows
