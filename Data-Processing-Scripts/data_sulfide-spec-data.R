@@ -213,4 +213,8 @@ sulfide <- bind_rows(sulf_wk2, sulf_wk3, sulf_wk6, sulf_wk9, sulf_wk9_reruns) %>
 
 
 
+# clean up
+rm(list = ls(pattern = "sulf_wk"))
+rm(wk9_rerun_ids)
+
 
