@@ -42,9 +42,9 @@ std_dec25 <- std_dec25 %>%
 
 
 # View the curve
-windows(); ggplot(std_dec25, aes(x = abs_corr, y = conc_uM)) + geom_point()
+windows(); ggplot(std_dec25, aes(x = conc_uM, y = abs_corr)) + geom_point()
 
-summary(lm(conc_uM ~ abs_corr, data = std_dec25))  # R2 = 0.9965
+summary(lm(abs_corr ~ conc_uM, data = std_dec25))  # R2 = 0.9965
 
 
 
