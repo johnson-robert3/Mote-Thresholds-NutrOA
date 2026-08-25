@@ -14,15 +14,14 @@ library(tidyverse)
 
 # Standard curve using MQ water instead of ZnAc for all standards, blanks, and dilutions
 
-   # S std date: 6/20/2023
-   # Diamine reag. (L) date: 4/05/2025
-   # Run by: RA Johnson & MG Teter
+   #' S std date: 6/20/2023
+   #' Diamine reag. (L) date: 4/05/2025
+   #' Run by: RA Johnson & MG Teter
 
 
 # raw data from spec run
 std_curve_dec25 <- read_csv("Sulfide spectrophotometer data/Sulfide_Low_standard_curve_Dec_2025.csv") %>%
    janitor::remove_empty(which = 'rows')
-
 
 # Clean up the data
 std_dec25 <- std_curve_dec25 %>%
@@ -30,7 +29,6 @@ std_dec25 <- std_curve_dec25 %>%
    filter(!(vial == "Zero")) %>%
    # remove checks
    filter(!(str_detect(vial, pattern='chk')))
-
 
 # Calculate corrected absorbance for standards
 std_dec25 <- std_dec25 %>%
@@ -40,11 +38,54 @@ std_dec25 <- std_dec25 %>%
    # correct for dilution factor
    mutate(abs_corr = abs_blk_corr * dilution)
 
-
 # View the curve
 windows(); ggplot(std_dec25, aes(x = conc_uM, y = abs_corr)) + geom_point()
-
 summary(lm(abs_corr ~ conc_uM, data = std_dec25))  # R2 = 0.9965
+
+
+#--
+# Low curve, Aug. 2026
+#--
+
+# Standard curve using MQ water instead of ZnAc for all standards, blanks, and dilutions
+
+   #' S std date: 8/21/2026
+   #' Diamine reag. (L) date: 8/21/2026
+   #' Run by: RA Johnson & MG Teter
+
+
+# raw data from spec run
+std_curve_aug26 <- read_csv("Sulfide spectrophotometer data/Sulfide_Low_standard_curve_Aug_2026.csv") %>%
+   janitor::remove_empty(which = 'rows')
+
+# Clean up the data
+std_aug26 <- std_curve_aug26 %>%
+   # remove 'zero'
+   filter(!(vial == "Zero")) %>%
+   # remove checks
+   filter(!(str_detect(vial, pattern='chk')))
+
+
+# Calculate corrected absorbance for standards
+std_aug26 <- std_aug26 %>%
+   filter(!(vial == "Blank")) %>%
+   # correct for blank absorbance
+   mutate(abs_blk_corr = abs_667 - (std_aug26 %>% filter(vial == "Blank") %>% pull(abs_667) %>% mean)) %>%
+   # correct for dilution factor
+   mutate(abs_corr = abs_blk_corr * dilution)
+
+# View the curve
+windows(); ggplot(std_aug26, aes(x = conc_uM, y = abs_corr)) + geom_point()
+summary(lm(abs_corr ~ conc_uM, data = std_aug26))  # R2 = 0.994
+
+
+
+#-- Compare the two curves
+windows(); ggplot() +
+   geom_point(data = std_dec25, aes(x = conc_uM, y = abs_corr), color="blue") +
+   geom_point(data = std_aug26, aes(x = conc_uM, y = abs_corr), color="red")
+
+   #' abs. values from Aug 26 curve are higher (diff. increases w/ conc.); slope is higher for Aug 26 curve (may need to redo)
 
 
 
