@@ -57,7 +57,10 @@ calc_vial_S <- function(.processed, .raw, .std_curve) {
          # for blanks
          abs_blk_corr = abs_667 - (.raw %>% filter(sample_id=="Blank") %>% pull(abs_667) %>% mean),
          # for post-color dilution
-         abs_corr = abs_blk_corr * dilution_post) %>%
+         # abs_corr = abs_blk_corr * dilution_post,
+         abs_corr = if_else(is.na(dilution_post), 
+                            true = abs_blk_corr, 
+                            false = abs_blk_corr * dilution_post)) %>%
       # remove samples with data flags indicating issues 
       filter(!(flag %in% data_flags)) %>%
       # remove sample dupes
