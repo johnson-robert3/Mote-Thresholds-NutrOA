@@ -250,9 +250,8 @@ trs <- sulf_trs %>%
 
 
 
-
 # clean up
 rm(list = ls(pattern = "sulf_wk"))
-rm(wk9_rerun_ids)
+rm(wk9_rerun_ids, raw_sulf_trs)
 
 
