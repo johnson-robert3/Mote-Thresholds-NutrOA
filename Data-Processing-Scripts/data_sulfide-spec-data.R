@@ -78,6 +78,8 @@ calc_vial_S <- function(.processed, .raw, .std_curve) {
 # Spec Data
 #--
 
+### Porewater Sulfide
+
 #- Run 1: Week 2 samples -# 
 # Standard curve to use: Dec. 2025
 
@@ -86,7 +88,7 @@ raw_sulf_wk2 <- read_csv("Sulfide spectrophotometer data/2025.12.18 - porewater 
    janitor::remove_empty(which = 'rows')
 
    # check measured concentration of standards
-   check_stds(raw_sulf_wk2, std_dec25)  # low end stds (L8) are reading low (30% off)...
+   check_stds(raw_sulf_wk2, std_dec25)  #' low end stds (L8) are reading low (30% off)...
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk2 <- rm_zbsc(raw_sulf_wk2)
@@ -106,7 +108,7 @@ raw_sulf_wk3 <- read_csv("Sulfide spectrophotometer data/2025.12.19 - porewater 
    janitor::remove_empty(which = 'rows')
 
    # check measured concentration of standards
-   check_stds(raw_sulf_wk3, std_dec25)  # high end stds (L40) are reading low (12% off)...
+   check_stds(raw_sulf_wk3, std_dec25)  #' high end stds (L40) are reading low (12% off)...
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk3 <- rm_zbsc(raw_sulf_wk3)
@@ -126,7 +128,7 @@ raw_sulf_wk6 <- read_csv("Sulfide spectrophotometer data/2026.01.02 - porewater 
    janitor::remove_empty(which = 'rows')
 
    # check measured concentration of standards
-   check_stds(raw_sulf_wk6, std_dec25)  # looks good (L2 is a bit low)
+   check_stds(raw_sulf_wk6, std_dec25)  #' looks good (L2 is a bit low)
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk6 <- rm_zbsc(raw_sulf_wk6)
@@ -148,7 +150,7 @@ raw_sulf_wk9 <- read_csv("Sulfide spectrophotometer data/2026.01.20 - porewater 
    janitor::remove_empty(which = 'rows')
 
    # check measured concentration of standards
-   check_stds(raw_sulf_wk9, std_dec25)  # looks good 
+   check_stds(raw_sulf_wk9, std_dec25)  #' looks good 
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk9 <- rm_zbsc(raw_sulf_wk9)
@@ -187,7 +189,7 @@ raw_sulf_wk9_reruns <- read_csv("Sulfide spectrophotometer data/2026.02.06 - por
    janitor::remove_empty(which = 'rows')
 
    # check measured concentration of standards
-   check_stds(raw_sulf_wk9_reruns, std_dec25)  # a bit off at the low end (L2) 
+   check_stds(raw_sulf_wk9_reruns, std_dec25)  #' a bit off at the low end (L2) 
 
 # Pre-process data sheets, remove unnecessary data/rows
 sulf_wk9_reruns <- rm_zbsc(raw_sulf_wk9_reruns)
@@ -202,10 +204,34 @@ sulf_wk9_reruns <- calc_vial_S(sulf_wk9_reruns, raw_sulf_wk9_reruns, std_dec25)
       #' T2-H159-w9
 
 
+### Sediment TRS
+
+#- Run 1: all samples (week 9) -#
+# Standard curve to use: Aug. 2026
+
+# raw data
+raw_sulf_trs <- read_csv("Sulfide spectrophotometer data/2026.08.25 - TRS sulfide.csv") %>%
+   janitor::remove_empty(which = 'rows')
+
+   # check measured concentration of standards
+   check_stds(raw_sulf_trs, std_aug26)  #' L2 way off (other stds look good) (okay, b/c we discard samples w/ abs as low as L2)
+   
+# Pre-process data sheets, remove unnecessary data/rows
+sulf_trs <- rm_zbsc(raw_sulf_trs)
+
+   # check agreement between sample dupes
+   sulf_trs %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
+
+# Sulfide concentration in vials (units = uM)
+sulf_trs <- calc_vial_S(sulf_trs, raw_sulf_trs, std_aug26)
+   
+
 
 #--
 # Sulfide Concentration
 #--
+
+### Porewater sulfide
 
 # Combine spec runs and calculate sulfide concentration (units = uM)
 sulfide <- bind_rows(sulf_wk2, sulf_wk3, sulf_wk6, sulf_wk9, sulf_wk9_reruns) %>%
@@ -213,6 +239,15 @@ sulfide <- bind_rows(sulf_wk2, sulf_wk3, sulf_wk6, sulf_wk9, sulf_wk9_reruns) %>
    mutate(scint_S_uM = vial_S_uM * dilution_pre) %>%
    # for samples below DL at dilution 1:2 (abs < 0.02), vial_S becomes 2.0, but should be 1.0uM, replace conc with half the DL (DL=2uM)
    mutate(scint_S_uM = replace(scint_S_uM, flag %in% c("DL"), 1))
+
+
+### TRS sulfide
+trs <- sulf_trs %>%
+   # correct measured sulfide concentration for any dilution prior to adding diamine reagent (units = uM)
+   mutate(trap_S_uM = vial_S_uM * dilution_pre) %>%
+   # for samples below DL at dilution 1:2 (abs < 0.02), vial_S becomes 2.0, but should be 1.0uM, replace conc with half the DL (DL=2uM)
+   mutate(trap_S_uM = replace(trap_S_uM, flag %in% c("DL"), 1))
+
 
 
 
