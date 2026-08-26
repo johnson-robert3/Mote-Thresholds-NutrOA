@@ -41,14 +41,14 @@ trs_plant <- trs_dat %>%
    relocate(sample_id) %>%
    # add sulfide concentration from spec data
    left_join(trs %>% select(sample_id, trap_S_uM, flag_spec = flag, notes_spec = notes)) %>%
-   # calculate sediment TRS concentration on mass basis (units = umol/g)
+   # calculate sediment TRS concentration
    mutate(
       # total sulfide in ZnAc trap (units = micromoles)
       trap_S_umol = trap_S_uM * (extraction_znac_ml / 1000),
-      # sediment TRS concentration (units = umol S / g sediment)
-      sediment_TRS_umol_g = trap_S_umol / extraction_mass_g) %>%
-   # calculate sediment TRS concentration on volume basis (units = umol/cm^3)
-   mutate(sediment_TRS_umol_cc = sediment_TRS_umol_g * mean_dbd) %>%  #' not really necessary, since all samples are multiplied by the same DBD value...
+      # sediment TRS concentration on a mass basis (units = umol S / g sediment)
+      sediment_TRS_umol_g = trap_S_umol / extraction_mass_g,
+      # sediment TRS concentration on volumetric basis (units = umol/cm^3)
+      sediment_TRS_umol_cc = sediment_TRS_umol_g * mean_dbd) %>%  #' not really necessary, since all samples are multiplied by the same DBD value...
    # add treatment and plant info
    left_join(plant_dat %>% select(plant_id, table, site, treatment_ph, treatment_nutrients))
 
