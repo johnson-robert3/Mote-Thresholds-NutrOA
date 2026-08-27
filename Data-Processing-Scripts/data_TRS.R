@@ -7,7 +7,7 @@
 #~~~
 
 
-#' need to run 'data_S-std-curves' and 'data_sulfide-spec-data' scripts first
+#' need to run 'data_S-std-curves', 'data_sulfide-spec-data', and 'data_import-and-process' scripts first
 
 
 #--

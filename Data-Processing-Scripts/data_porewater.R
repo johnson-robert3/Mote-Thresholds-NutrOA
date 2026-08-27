@@ -127,4 +127,6 @@ porewater_trt <- porewater_plant %>%
 
 
 
+# clean up
+rm(tmp1, tmp2, tmp3)
 

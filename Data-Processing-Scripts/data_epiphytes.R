@@ -35,4 +35,7 @@ epi_plant <- tmp1 %>%
 
 
 
+# clean up
+rm(tmp, tmp1)
+
 
