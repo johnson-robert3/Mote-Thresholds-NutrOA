@@ -5,12 +5,12 @@
 #~~~
 
 
-# 1. Combine leaf/shoot count data with plant_ID data
+#- 1. Combine leaf/shoot count data with plant_ID data
 plants <- leaf_counts %>% rename(count_notes = notes) %>% 
    left_join(plant_dat)
 
 
-# 2. Lists of plant IDs
+#- 2. Lists of plant IDs
 
 # all plant IDs used in experiment
 plant_ids_w0 <- plants %>% pull(plant_id) %>% unique()
@@ -19,7 +19,7 @@ plant_ids_w0 <- plants %>% pull(plant_id) %>% unique()
 harvest_ids <- plant_dat %>% filter(str_detect(removal_notes, "genetics")) %>% pull(plant_id)
 
 
-# 3. Calculate survivorship/mortality of each species at each time point
+#- 3. Calculate survivorship/mortality of each species at each time point
 
    #' There is additional mortality data for weeks 3 and 8 within the 'leaf_counts' dataset if ever desired. 
    #' In week 3, morphometry was measured on a subset of living plant IDs. In both weeks 3 and 8, all plant ID's were checked for mortality.
@@ -52,11 +52,12 @@ hw_w9_ids <- plants %>% filter(week == "w9" & Hw_blades > 0) %>% pull(plant_id)
    # view the plants harvested at wk 6 where HW was still living
    plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Hw_blades > 0) %>% View
 
+# IDs of plants still alive when harvested at week 6
+hw_alive_at_harvest <- plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Hw_blades > 0) %>% pull(plant_id)
+
 # so the final set of plant IDs from wk 2 to be used for calculating survivorship at wk 9 is...
 hw_w2_no_genetics <- plants %>% filter(week == "w2" & Hw_blades > 0) %>% 
-   filter(!(plant_id %in% 
-               c(plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Hw_blades > 0) %>% pull(plant_id))
-            )) %>% 
+   filter(!(plant_id %in% hw_alive_at_harvest)) %>% 
    pull(plant_id)
 
 
@@ -78,17 +79,17 @@ hw_surv <- plants %>%
       alive_w2 = if_else(plant_id %in% hw_w2_ids, 1, 0),
       alive_w6 = if_else(plant_id %in% hw_w6_ids, 1, 0),
       alive_w9 = if_else(plant_id %in% hw_w9_ids, 1, 0),
-      w2_for_w9 = if_else(plant_id %in% hw_w2_no_genetics, 1, 0)) #%>%
-   # filter(alive_w2 != 0)
+      # alive_w9 = if_else(plant_id %in% hw_alive_at_harvest, NA_real_, alive_w9),  # alternate: update alive_w9 w/ NA values for plants that were still living when harvested
+      w2_for_w9 = if_else(plant_id %in% hw_w2_no_genetics, 1, 0))
 
 
-# view survivorship by treatment
-hw_surv %>%
-   filter(week == "w2") %>%
-   summarize(across(c(alive_w2:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
-   mutate(survive_w6_perc = alive_w6 / alive_w2 * 100,
-          survive_w9_perc = alive_w9 / w2_for_w9 * 100) %>%
-   View
+   # view survivorship by treatment
+   hw_surv %>%
+      filter(week == "w2") %>%
+      summarize(across(c(alive_w2:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
+      mutate(survive_w6_perc = alive_w6 / alive_w2 * 100,
+             survive_w9_perc = alive_w9 / w2_for_w9 * 100) %>%
+      View
 
    # view ambient ph and 2g treatment, why does w9 have higher survivorship than wk 6?
    hw_surv %>% filter(treatment_ph=="ambient" & treatment_nutrients=="2g") %>% arrange(plant_id, week) %>% View
@@ -145,11 +146,12 @@ tt_w9_ids <- plants %>% filter(week == "w9" & Tt_blades > 0) %>% pull(plant_id)
       #' both of these plants were recorded as having Tt blades in wk 6, but not in any other weeks
       #' - just omit these two for survivorship counts
 
+# IDs of plants still alive when harvested at week 6
+tt_alive_at_harvest <- plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Tt_blades > 0) %>% pull(plant_id)
+
 # so the final set of plant IDs from wk 2 to be used for calculating survivorship at wk 9 is...
 tt_w2_no_genetics <- plants %>% filter(week == "w2" & Tt_blades > 0) %>% 
-   filter(!(plant_id %in% 
-               c(plants %>% filter(week == 'w6' & plant_id %in% harvest_ids) %>% filter(Tt_blades > 0) %>% pull(plant_id))
-            )) %>% 
+   filter(!(plant_id %in% tt_alive_at_harvest)) %>% 
    pull(plant_id)
 
 
@@ -171,8 +173,8 @@ tt_surv <- plants %>%
       alive_w2 = if_else(plant_id %in% tt_w2_ids, 1, 0),
       alive_w6 = if_else(plant_id %in% tt_w6_ids, 1, 0),
       alive_w9 = if_else(plant_id %in% tt_w9_ids, 1, 0),
-      w2_for_w9 = if_else(plant_id %in% tt_w2_no_genetics, 1, 0)) #%>%
-   # filter(alive_w2 != 0)
+      # alive_w9 = if_else(plant_id %in% tt_alive_at_harvest, NA_real_, alive_w9),  # alternate: update alive_w9 w/ NA values for plants that were still living when harvested
+      w2_for_w9 = if_else(plant_id %in% tt_w2_no_genetics, 1, 0)) 
 
 # df of Thalassia survivorship 
 # (remove the two plants identified above that were only recorded as alive at wk 6)
@@ -181,7 +183,7 @@ tt_surv <- tt_surv %>% filter_out(plant_id %in% c("L163", "H117"))
 
 # view survivorship by treatment
 tt_mort <- tt_surv %>%
-   filter(week == "w2") %>%
+   filter(week == "w2") %>%  #' rows for each week are identical, b/c survivorship values are in wide format within each row
    summarize(across(c(alive_w0:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
    mutate(survive_w2_perc = alive_w2 / alive_w0 * 100,   # percent that survived initial acclimation period
           survive_w6_perc = alive_w6 / alive_w2 * 100,   # percent that survived the experimental period (relative to those living at wk 2)
