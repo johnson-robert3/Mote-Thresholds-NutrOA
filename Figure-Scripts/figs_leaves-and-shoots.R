@@ -42,7 +42,12 @@ ggplot(shoots_plant %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(shoot_count, na.rm=TRUE),
                     se = se(shoot_count),
-                    .by = c(treatment_ph, treatment_nutrients, week))) +
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
                  position = position_dodge(width=0.3), width=0, linewidth=0.67) +
@@ -54,7 +59,7 @@ ggplot(shoots_plant %>%
    labs(title = "Halodule shoot count",
         x = "Nutrient treatment (g)",
         y = "Number of shoots (per pot)") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
@@ -92,7 +97,12 @@ ggplot(shoots_plant %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(shoot_count, na.rm=TRUE),
                     se = se(shoot_count),
-                    .by = c(treatment_ph, treatment_nutrients, week))) +
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
                  position = position_dodge(width=0.3), width=0, linewidth=0.67) +
@@ -104,7 +114,7 @@ ggplot(shoots_plant %>%
    labs(title = "Thalassia shoot count",
         x = "Nutrient treatment (g)",
         y = "Number of shoots (per pot)") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
@@ -195,7 +205,12 @@ ggplot(shoots_plant %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(bps, na.rm=TRUE),
                     se = se(bps),
-                    .by = c(treatment_ph, treatment_nutrients, week))) +
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
@@ -207,7 +222,7 @@ ggplot(shoots_plant %>%
    labs(title = "Halodule BPS",
         x = "Nutrient treatment (g)",
         y = "Blades per shoot") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
@@ -270,7 +285,12 @@ ggplot(shoots_plant %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(bps, na.rm=TRUE),
                     se = se(bps),
-                    .by = c(treatment_ph, treatment_nutrients, week))) +
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
@@ -282,7 +302,7 @@ ggplot(shoots_plant %>%
    labs(title = "Thalassia BPS",
         x = "Nutrient treatment (g)",
         y = "Blades per shoot") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() +
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
@@ -397,7 +417,12 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(blade_length, na.rm=TRUE),
                     se = se(blade_length),
-                    .by = c(treatment_ph, treatment_nutrients, week))) +
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
@@ -408,7 +433,7 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
    labs(title = "Halodule size",
         x = "Nutrient treatment (g)",
         y = "Blade length (cm)") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
 
@@ -471,7 +496,12 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(blade_length, na.rm=TRUE),
                     se = se(blade_length),
-                    .by = c(treatment_ph, treatment_nutrients, week))) +
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
@@ -482,7 +512,7 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
    labs(title = "Thalassia size",
         x = "Nutrient treatment (g)",
         y = "Blade length (cm)") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
 
@@ -545,7 +575,12 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(tot_leaf_area, na.rm=TRUE),
                     se = se(tot_leaf_area),
-                    .by = c(treatment_ph, treatment_nutrients, week))) +
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
@@ -556,7 +591,7 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
    labs(title = "Halodule total leaf area",
         x = "Nutrient treatment (g)",
         y = "Leaf surface area (cm^2)") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
 
@@ -612,7 +647,12 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
           summarize(mean = mean(tot_leaf_area, na.rm=TRUE),
                     se = se(tot_leaf_area),
-                    .by = c(treatment_ph, treatment_nutrients, week))) +
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
@@ -623,7 +663,7 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
    labs(title = "Thalassia total leaf area",
         x = "Nutrient treatment (g)",
         y = "Leaf surface area (cm^2)") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
 

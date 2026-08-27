@@ -60,7 +60,12 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/pw_pH_w9.
 
 # ph - acclimation, stress, recovery periods
 ggplot(porewater_trt %>% filter(parameter=="pH" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
-          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor(),
+                 period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
@@ -72,7 +77,7 @@ ggplot(porewater_trt %>% filter(parameter=="pH" & week %in% c('w2', 'w6', 'w9') 
    labs(title = "Porewater pH",
         x = "Nutrient treatment (g)",
         y = "pH") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
 
@@ -121,7 +126,12 @@ ggplot(porewater_trt %>% filter(parameter == "porewater_S_uM" & week == "w9" & t
 
 # Sulfide - acclimation, stress, recovery periods
 ggplot(porewater_trt %>% filter(parameter == "porewater_S_uM" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
-          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor(),
+                 period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
@@ -133,7 +143,7 @@ ggplot(porewater_trt %>% filter(parameter == "porewater_S_uM" & week %in% c('w2'
    labs(title = "Porewater sulfide",
         x = "Nutrient treatment (g)",
         y = "Total dissolved sulfide (uM)") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
 
@@ -202,7 +212,12 @@ ggplot(porewater_trt %>% filter(parameter == "pw_h2s_uM" & week == "w9" & treatm
 
 # H2S - acclimation, stress, recovery periods
 ggplot(porewater_trt %>% filter(parameter == "pw_h2s_uM" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
-          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor(),
+                 period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
@@ -214,7 +229,7 @@ ggplot(porewater_trt %>% filter(parameter == "pw_h2s_uM" & week %in% c('w2', 'w6
    labs(title = "Hydrogen sulfide (H2S)",
         x = "Nutrient treatment (g)",
         y = "Hydrogen sulfide (uM)") +
-   facet_wrap(facets = vars(week)) +
+   facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
 
