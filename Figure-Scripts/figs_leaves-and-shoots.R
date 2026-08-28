@@ -152,6 +152,37 @@ ggplot(shoots_plant %>%
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_leaves_w9.png", height=4, width=5, units="in", dpi=300)
 
 
+# Hw leaves - acclimation, stress, recovery periods
+ggplot(shoots_plant %>% 
+          filter(species == "Hw" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed" & leaf_count>0) %>%  # only including plants w/ living Hw
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          summarize(mean = mean(leaf_count, na.rm=TRUE),
+                    se = se(leaf_count),
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
+   #
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   scale_color_manual(name = 'pH', values = ph_col_hw) +
+   labs(#title = "Halodule shoot count",
+        title = expression(italic("H. wrightii")~leaf~count),
+        x = "Nutrient treatment (g)",
+        y = "Number of leaves (per pot)") +
+   facet_wrap(facets = vars(period)) +
+   theme_classic() +
+   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_leaves_periods.png", height=3, width=8, units="in", dpi=300)
+
+
 # Tt - week 9
 ggplot(shoots_plant %>% 
           filter(species == "Tt" & week=="w9" & treatment_nutrients!="pulsed" & leaf_count>0) %>%  # only including plants w/ living Tt
@@ -173,6 +204,38 @@ ggplot(shoots_plant %>%
    theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_leaves_w9.png", height=4, width=5, units="in", dpi=300)
+
+
+# Tt leaves - acclimation, stress, recovery periods
+ggplot(shoots_plant %>% 
+          filter(species == "Tt" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed" & leaf_count>0) %>%  # only including plants w/ living Hw
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          summarize(mean = mean(leaf_count, na.rm=TRUE),
+                    se = se(leaf_count),
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
+   #
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   scale_color_manual(name = 'pH', values = ph_col_tt) +
+   labs(#title = "Thalassia shoot count",
+        title = expression(italic("T. testudinum")~leaf~count),
+        x = "Nutrient treatment (g)",
+        y = "Number of leaves (per pot)") +
+   facet_wrap(facets = vars(period)) +
+   theme_classic() +
+   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_leaves_periods.png", height=3, width=8, units="in", dpi=300)
+
 
 
 #-- Blades per shoot ----
