@@ -16,10 +16,11 @@ mort.ts <- hw_mort %>% mutate(species = "Hw") %>%
    # recalculate survival as the percentage remaining compared to the start at week 0
    #  this method is better for viewing time-series, but is not correct for viewing trt differences at specific time points
    select(-starts_with("survive")) %>%
+   #' these are all relative to wk 0, which is incorrect, because mort during acclim. period has nothing to do w/ trt effects
    mutate(survive_w0 = 100,
           survive_w2 = alive_w2 / alive_w0 * 100,
           survive_w6 = alive_w6 / alive_w0 * 100,
-          survive_w9 = alive_w9 / alive_w0 * 100) %>%
+          survive_w9 = alive_w9 / alive_w0 * 100) %>%  # wk 9 is not correct, does not account for plants harvested at wk 6
    select(-alive_w0:-w2_for_w9) %>%
    pivot_longer(cols = starts_with("survive"),
                 names_to = "week",
@@ -98,13 +99,14 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_mort_w
 # Hw - week 9
 ggplot(mort.comp %>% filter(species=="Hw" & week=='w9' & treatment_nutrients!="pulsed") %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
+   geom_line(aes(x = treatment_nutrients, y = survival, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_point(aes(x = treatment_nutrients, y = survival, color = treatment_ph), 
               size=3.5, position = position_dodge(width=0.3)) +
-   geom_line(aes(x = treatment_nutrients, y = survival, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75) +
    scale_color_manual(name = 'pH', values = ph_col_hw) +
    lims(y = c(0, 100)) +
-   labs(title = "Halodule survival - Recovery (wk 9)",
+   labs(#title = expression(italic("H. wrightii")~survival),
+        title = expression(italic("H. wrightii")~survival),
         x = "Nutrient treatment (g)",
         y = "Survival (%)") +
    theme_classic() %>%
@@ -154,13 +156,14 @@ ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_mort_w
 # Tt - week 9
 ggplot(mort.comp %>% filter(species=="Tt" & week=='w9' & treatment_nutrients!="pulsed") %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor())) +
+   geom_line(aes(x = treatment_nutrients, y = survival, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_point(aes(x = treatment_nutrients, y = survival, color = treatment_ph), 
               size=3.5, position = position_dodge(width=0.3)) +
-   geom_line(aes(x = treatment_nutrients, y = survival, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75) +
    scale_color_manual(name = 'pH', values = ph_col_tt) +
    lims(y = c(0, 100)) +
-   labs(title = "Thalassia survival - Recovery (wk 9)",
+   labs(#title = "Thalassia survival - Recovery (wk 9)",
+        title = expression(italic("T. testudinum")~survival),
         x = "Nutrient treatment (g)",
         y = "Survival (%)") +
    theme_classic() %>%

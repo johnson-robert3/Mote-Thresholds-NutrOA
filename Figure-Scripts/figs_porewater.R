@@ -68,9 +68,9 @@ ggplot(porewater_trt %>% filter(parameter=="pH" & week %in% c('w2', 'w6', 'w9') 
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_env) +
@@ -134,9 +134,9 @@ ggplot(porewater_trt %>% filter(parameter == "porewater_S_uM" & week %in% c('w2'
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_env) +
@@ -220,9 +220,9 @@ ggplot(porewater_trt %>% filter(parameter == "pw_h2s_uM" & week %in% c('w2', 'w6
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_env) +

@@ -16,6 +16,11 @@ ph_col_tt <- c('ambient' = "#00B7B5", 'OA' = "#005461")  # ambient - light; OA -
 ph_col_env <- c('ambient' = "#9A0680", 'OA' = "#4C0070")  # ambient - light; OA - dark
 
 
+# Transparency
+alpha_pt <- 1.0  # points
+alpha_line <- 0.5  # lines
+alpha_err <- 0.7  # error bars
+
 
 #- Function for figure aesthetics
 fig_theme <- function (.fig) {

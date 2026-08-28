@@ -49,14 +49,15 @@ ggplot(shoots_plant %>%
                                         'w9' ~ "Recovery"),
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
-   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_hw) +
-   labs(title = "Halodule shoot count",
+   labs(#title = "Halodule shoot count",
+        title = expression(italic("H. wrightii")~shoot~count),
         x = "Nutrient treatment (g)",
         y = "Number of shoots (per pot)") +
    facet_wrap(facets = vars(period)) +
@@ -104,14 +105,15 @@ ggplot(shoots_plant %>%
                                         'w9' ~ "Recovery"),
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
-   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_tt) +
-   labs(title = "Thalassia shoot count",
+   labs(#title = "Thalassia shoot count",
+        title = expression(italic("T. testudinum")~shoot~count),
         x = "Nutrient treatment (g)",
         y = "Number of shoots (per pot)") +
    facet_wrap(facets = vars(period)) +
@@ -213,13 +215,14 @@ ggplot(shoots_plant %>%
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_hw) +
-   labs(title = "Halodule BPS",
+   labs(#title = "Halodule BPS",
+        title = expression(italic("H. wrightii")~BPS),
         x = "Nutrient treatment (g)",
         y = "Blades per shoot") +
    facet_wrap(facets = vars(period)) +
@@ -293,13 +296,14 @@ ggplot(shoots_plant %>%
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_tt) +
-   labs(title = "Thalassia BPS",
+   labs(#title = "Thalassia BPS",
+        title = expression(italic("T. testudinum")~BPS),
         x = "Nutrient treatment (g)",
         y = "Blades per shoot") +
    facet_wrap(facets = vars(period)) +
@@ -424,13 +428,14 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
                                         'w9' ~ "Recovery"),
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_hw) +
-   labs(title = "Halodule size",
+   labs(#title = "Halodule size",
+        title = expression(italic("H. wrightii")~size),
         x = "Nutrient treatment (g)",
         y = "Blade length (cm)") +
    facet_wrap(facets = vars(period)) +
@@ -503,13 +508,14 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
                                         'w9' ~ "Recovery"),
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(name = 'pH', values = ph_col_tt) +
-   labs(title = "Thalassia size",
+   labs(#title = "Thalassia size",
+        title = expression(italic("T. testudinum")~size),
         x = "Nutrient treatment (g)",
         y = "Blade length (cm)") +
    facet_wrap(facets = vars(period)) +
@@ -582,13 +588,14 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
                                         'w9' ~ "Recovery"),
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(values = ph_col_hw) +
-   labs(title = "Halodule total leaf area",
+   labs(#title = "Halodule total leaf area",
+        title = expression(italic("H. wrightii")~total~leaf~area),
         x = "Nutrient treatment (g)",
         y = "Leaf surface area (cm^2)") +
    facet_wrap(facets = vars(period)) +
@@ -654,13 +661,14 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
                                         'w9' ~ "Recovery"),
                  period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
-             position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
-                 position = position_dodge(width=0.3), width=0, linewidth=0.67) +
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
    geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
               size=3.5, shape=19, position = position_dodge(width=0.3)) +
    scale_color_manual(values = ph_col_tt) +
-   labs(title = "Thalassia total leaf area",
+   labs(#title = "Thalassia total leaf area",
+        title = expression(italic("T. testudinum")~total~leaf~area),
         x = "Nutrient treatment (g)",
         y = "Leaf surface area (cm^2)") +
    facet_wrap(facets = vars(period)) +
