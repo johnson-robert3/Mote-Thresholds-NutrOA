@@ -79,7 +79,7 @@ hw_surv <- plants %>%
       alive_w2 = if_else(plant_id %in% hw_w2_ids, 1, 0),
       alive_w6 = if_else(plant_id %in% hw_w6_ids, 1, 0),
       alive_w9 = if_else(plant_id %in% hw_w9_ids, 1, 0),
-      # alive_w9 = if_else(plant_id %in% hw_alive_at_harvest, NA_real_, alive_w9),  # alternate: update alive_w9 w/ NA values for plants that were still living when harvested
+      alive_w9 = if_else(plant_id %in% hw_alive_at_harvest, NA_real_, alive_w9),  # alternate: update alive_w9 w/ NA values for plants that were still living when harvested
       w2_for_w9 = if_else(plant_id %in% hw_w2_no_genetics, 1, 0))
 
 
@@ -107,7 +107,7 @@ hw_surv <- hw_surv %>% filter_out(plant_id %in% c("L006", "L171"))
 # view survivorship by treatment
 hw_mort <- hw_surv %>%
    filter(week == "w2") %>%
-   summarize(across(c(alive_w0:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
+   summarize(across(c(alive_w0:w2_for_w9), ~ sum(., na.rm=TRUE)), .by = c(treatment_ph, treatment_nutrients)) %>%
    mutate(survive_w2_perc = alive_w2 / alive_w0 * 100,   # percent that survived initial acclimation period
           survive_w6_perc = alive_w6 / alive_w2 * 100,   # percent that survived the experimental period (relative to those living at wk 2)
           survive_w9_perc = alive_w9 / w2_for_w9 * 100)  # percent that survived to the end (relative to those living at wk 2, not including living plants harvested at wk 6)
@@ -173,7 +173,7 @@ tt_surv <- plants %>%
       alive_w2 = if_else(plant_id %in% tt_w2_ids, 1, 0),
       alive_w6 = if_else(plant_id %in% tt_w6_ids, 1, 0),
       alive_w9 = if_else(plant_id %in% tt_w9_ids, 1, 0),
-      # alive_w9 = if_else(plant_id %in% tt_alive_at_harvest, NA_real_, alive_w9),  # alternate: update alive_w9 w/ NA values for plants that were still living when harvested
+      alive_w9 = if_else(plant_id %in% tt_alive_at_harvest, NA_real_, alive_w9),  # alternate: update alive_w9 w/ NA values for plants that were still living when harvested
       w2_for_w9 = if_else(plant_id %in% tt_w2_no_genetics, 1, 0)) 
 
 # df of Thalassia survivorship 
@@ -184,7 +184,7 @@ tt_surv <- tt_surv %>% filter_out(plant_id %in% c("L163", "H117"))
 # view survivorship by treatment
 tt_mort <- tt_surv %>%
    filter(week == "w2") %>%  #' rows for each week are identical, b/c survivorship values are in wide format within each row
-   summarize(across(c(alive_w0:w2_for_w9), ~ sum(.)), .by = c(treatment_ph, treatment_nutrients)) %>%
+   summarize(across(c(alive_w0:w2_for_w9), ~ sum(., na.rm=TRUE)), .by = c(treatment_ph, treatment_nutrients)) %>%
    mutate(survive_w2_perc = alive_w2 / alive_w0 * 100,   # percent that survived initial acclimation period
           survive_w6_perc = alive_w6 / alive_w2 * 100,   # percent that survived the experimental period (relative to those living at wk 2)
           survive_w9_perc = alive_w9 / w2_for_w9 * 100)  # percent that survived to the end (relative to those living at wk 2, not including living plants harvested at wk 6)
