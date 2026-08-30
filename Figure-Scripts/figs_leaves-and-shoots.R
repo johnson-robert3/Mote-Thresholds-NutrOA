@@ -660,7 +660,7 @@ ggplot(morph_plant %>% filter(species=="Hw" & week %in% c('w2', 'w6', 'w9') & tr
    labs(#title = "Halodule total leaf area",
         title = expression(italic("H. wrightii")~total~leaf~area),
         x = "Nutrient treatment (g)",
-        y = "Leaf surface area (cm^2)") +
+        y = expression(Leaf~surface~area~(cm^2))) +
    facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
@@ -733,7 +733,7 @@ ggplot(morph_plant %>% filter(species=="Tt" & week %in% c('w2', 'w6', 'w9') & tr
    labs(#title = "Thalassia total leaf area",
         title = expression(italic("T. testudinum")~total~leaf~area),
         x = "Nutrient treatment (g)",
-        y = "Leaf surface area (cm^2)") +
+        y = expression(Leaf~surface~area~(cm^2))) +
    facet_wrap(facets = vars(period)) +
    theme_classic() %>%
    fig_theme()
