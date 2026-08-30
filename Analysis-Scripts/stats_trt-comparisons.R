@@ -5,7 +5,10 @@
 
 
 library(nlme)
+library(emmeans)
 
+
+#- Porewater Sulfide -#
 
 # difference in porewater sulfide at week 9
 
@@ -32,6 +35,8 @@ contrast(emmeans(mod1, ~ treatment_nutrients * treatment_ph),
 
 
 
+#- Blades Per Shoot -#
+
 # difference in HW BPS at week 9
 tmp <- shoots_plant %>% 
    filter(species == "Hw" & week == 'w9' & treatment_nutrients!="pulsed" & bps>0)
@@ -43,9 +48,9 @@ mod2 <- lme(bps ~ treatment_nutrients + treatment_ph,
    #' no need for interaction, same effect of nutrients across both pHs
 
 summary(mod2)
-car::Anova(mod2)
+car::Anova(mod2, type=2)
 
-emmeans(mod2, ~ treatment_nutrients * treatment_ph)
+emmeans(mod2, ~ treatment_nutrients + treatment_ph)
 
 contrast(emmeans(mod2, ~ treatment_nutrients), method = "pairwise")
    #' some are sig., 10g > 0/2/4g, 7g > 0g (so, high nutrients have sig effect)
@@ -53,6 +58,30 @@ contrast(emmeans(mod2, ~ treatment_ph), method = "pairwise")
    #' sig., OA > ambient
 
 
+
+# difference in TT BPS at week 9
+tmp <- shoots_plant %>% 
+   filter(species == "Tt" & week == 'w9' & treatment_nutrients!="pulsed" & bps>0)
+
+mod.b.tt <- lme(bps ~ treatment_nutrients + treatment_ph, 
+            random = ~1|table,
+            data = tmp,
+            method = "REML")
+   #' 
+
+summary(mod.b.tt)
+car::Anova(mod.b.tt, type=2)
+
+emmeans(mod.b.tt, ~ treatment_nutrients + treatment_ph)
+
+contrast(emmeans(mod.b.tt, ~ treatment_nutrients), method = "pairwise")
+   #' 
+contrast(emmeans(mod.b.tt, ~ treatment_ph), method = "pairwise")
+   #' 
+
+
+
+#- Shoot Count -#
 
 # differences in Tt shoot count at week 6 and week 9
 tmp <- shoots_plant %>% 
@@ -65,7 +94,7 @@ mod3 <- lme(shoot_count ~ treatment_nutrients * treatment_ph,
             method = "REML")
 
 summary(mod3)
-car::Anova(mod3)
+car::Anova(mod3, type=3)
 
 contrast(emmeans(mod3, ~ treatment_nutrients * treatment_ph),
          method = "pairwise", by = "treatment_ph", adjust = "tukey")
@@ -82,7 +111,7 @@ mod4 <- lme(shoot_count ~ treatment_nutrients * treatment_ph,
             method = "REML")
 
 summary(mod4)
-car::Anova(mod4)
+car::Anova(mod4, type=3)
 
 contrast(emmeans(mod4, ~ treatment_nutrients * treatment_ph),
          method = "pairwise", by = "treatment_ph", adjust = "tukey")  # ns
@@ -102,7 +131,7 @@ mod5 <- lme(shoot_count ~ treatment_nutrients * treatment_ph,
             method = "REML")
 
 summary(mod5)
-car::Anova(mod5)
+car::Anova(mod5, type=3)
 
 contrast(emmeans(mod5, ~ treatment_nutrients * treatment_ph),
          method = "pairwise", by = "treatment_ph", adjust = "tukey")
@@ -119,7 +148,7 @@ mod6 <- lme(shoot_count ~ treatment_nutrients * treatment_ph,
             method = "REML")
 
 summary(mod6)
-car::Anova(mod6)
+car::Anova(mod6, type=3)
 
 contrast(emmeans(mod6, ~ treatment_nutrients * treatment_ph),
          method = "pairwise", by = "treatment_ph", adjust = "tukey")
@@ -127,6 +156,8 @@ contrast(emmeans(mod6, ~ treatment_nutrients * treatment_ph),
 contrast(emmeans(mod6, ~ treatment_nutrients * treatment_ph),
          method = "pairwise", by = "treatment_nutrients", adjust = "tukey")
    #' p=0.062 for pH diff in 0g trt
+
+
 
 
 
