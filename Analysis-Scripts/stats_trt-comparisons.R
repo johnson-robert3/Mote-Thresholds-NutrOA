@@ -67,7 +67,7 @@ mod.b.tt <- lme(bps ~ treatment_nutrients + treatment_ph,
             random = ~1|table,
             data = tmp,
             method = "REML")
-   #' 
+   #' interaction not sig.
 
 summary(mod.b.tt)
 car::Anova(mod.b.tt, type=2)
