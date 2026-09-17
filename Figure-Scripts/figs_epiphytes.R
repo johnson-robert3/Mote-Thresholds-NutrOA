@@ -112,6 +112,37 @@ ggplot(epi_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients!="p
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_epiphytes_w9.png", height=4, width=5, units="in", dpi=300)
 
 
+# Hw epiphytes - acclimation, stress, recovery periods
+ggplot(epi_plant %>% 
+          filter(species == "Hw" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          summarize(mean = mean(epi_by_leafSA, na.rm=TRUE),
+                    se = se(epi_by_leafSA),
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
+   #
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   scale_color_manual(name = 'pH', values = ph_col_hw) +
+   labs(title = expression(italic("H. wrightii")~epiphytes),
+        x = "Nutrient treatment (g)",
+        y = "Epiphyte mass (mg DM / cm^2 leaf)") +
+   facet_wrap(facets = vars(period)) +
+   theme_classic() +
+   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/hw_epiphytes_periods.png", height=3, width=8/3*2, units="in", dpi=300)
+
+
+
 # Tt - wk 6
 ggplot(epi_plant %>% filter(week=="w6" & species=="Tt" & treatment_nutrients!="pulsed") %>%
           mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
@@ -155,6 +186,35 @@ ggplot(epi_plant %>% filter(week=="w9" & species=="Tt" & treatment_nutrients!="p
 
 ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_epiphytes_w9.png", height=4, width=5, units="in", dpi=300)
 
+
+# Tt epiphytes - acclimation, stress, recovery periods
+ggplot(epi_plant %>% 
+          filter(species == "Tt" & week %in% c('w2', 'w6', 'w9') & treatment_nutrients!="pulsed") %>%
+          mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor()) %>%
+          summarize(mean = mean(epi_by_leafSA, na.rm=TRUE),
+                    se = se(epi_by_leafSA),
+                    .by = c(treatment_ph, treatment_nutrients, week)) %>%
+          mutate(period = recode_values(week,
+                                        'w2' ~ "Acclimation",
+                                        'w6' ~ "Stress",
+                                        'w9' ~ "Recovery"),
+                 period = factor(period, levels = c("Acclimation", "Stress", "Recovery")))) +
+   #
+   geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
+             position = position_dodge(width=0.3), linewidth=0.75, alpha = alpha_line) +
+   geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
+                 position = position_dodge(width=0.3), width=0, linewidth=0.67, alpha = alpha_err) +
+   geom_point(aes(x = treatment_nutrients, y = mean, color = treatment_ph), 
+              size=3.5, shape=19, position = position_dodge(width=0.3)) +
+   scale_color_manual(name = 'pH', values = ph_col_tt) +
+   labs(title = expression(italic("T. testudinum")~epiphytes),
+        x = "Nutrient treatment (g)",
+        y = "Epiphyte mass (mg DM / cm^2 leaf)") +
+   facet_wrap(facets = vars(period)) +
+   theme_classic() +
+   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
+
+ggsave("C:/Users/rajohnson6/Desktop/Local-Repos/Mote-Thresholds-NutrOA/tt_epiphytes_periods.png", height=3, width=8/3*2, units="in", dpi=300)
 
 
 
