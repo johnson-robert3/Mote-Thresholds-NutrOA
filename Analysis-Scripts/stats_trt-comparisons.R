@@ -63,7 +63,7 @@ contrast(emmeans(mod2, ~ treatment_ph), method = "pairwise")
 tmp <- shoots_plant %>% 
    filter(species == "Tt" & week == 'w9' & treatment_nutrients!="pulsed" & bps>0)
 
-mod.b.tt <- lme(bps ~ treatment_nutrients + treatment_ph, 
+mod.b.tt <- lme(bps ~ treatment_nutrients * treatment_ph, 
             random = ~1|table,
             data = tmp,
             method = "REML")
@@ -74,10 +74,10 @@ car::Anova(mod.b.tt, type=2)
 
 emmeans(mod.b.tt, ~ treatment_nutrients + treatment_ph)
 
-contrast(emmeans(mod.b.tt, ~ treatment_nutrients), method = "pairwise")
-   #' 
-contrast(emmeans(mod.b.tt, ~ treatment_ph), method = "pairwise")
-   #' 
+contrast(emmeans(mod.b.tt, ~ treatment_nutrients * treatment_ph), by = "treatment_ph", method = "pairwise")
+   #' no sig. differences among nutrient treatments for either pH treatment
+contrast(emmeans(mod.b.tt, ~ treatment_nutrients * treatment_ph), by = "treatment_nutrients", method = "pairwise")
+   #' no sig. differences between pH treatments for any nutrient treatment (4g, p=0.07)
 
 
 
